@@ -40,9 +40,8 @@
 
 		for (var y = 0; y < this.height; y++) {
 			for (var x = 0; x < this.width; x++) {
-				var i = x * 4 + y * this.width * 4;
 				var matrix = getMatrix(x, y, size);
-				fn(i, matrix);
+				fn(coordsToIndex(this.width, this.height, {x: x, y: y}), matrix);
 			}
 		}
 		
@@ -51,7 +50,7 @@
 			for (var i = 0, y = -(size-1)/2; i < size; i++, y++) {
 				matrix[i] = [];
 				for (var j = 0, x = -(size-1)/2; j < size; j++, x++) {
-					matrix[i][j] = (cx + x) * 4 + (cy + y) * that.width * 4;
+					matrix[i][j] = coordsToIndex(that.width, that.height, {x: cx + x, y: cy + y});
 				}
 			}
 			return matrix;
@@ -77,7 +76,18 @@
 			return {r: imgData.data[i], g: imgData.data[i + 1], b: imgData.data[i + 2], a: imgData.data[i + 3] };
 		}
 	}
+  
+  function coordsToIndex(width, height, coords) {
+		return coords.x * 4 + coords.y * width * 4;
+  }
+
+  function indexToCoords(width, height, index) {
+    return {x: (index % (width * 4)) / 4,
+            y: Math.floor(index / (width * 4))};
+  }
 
 	exports.Canvas = Canvas;
+  exports.coordsToIndex = coordsToIndex;
+  exports.indexToCoords = indexToCoords;
 
 }(this));
