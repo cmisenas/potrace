@@ -4,7 +4,15 @@
    * Iterate through the canvas image vertex (NW point)
    * Check each one if it is an edge based on the condition that all four neighbors are not equal in value
    */
+  
+  //this object will be responsible for finding all vertices given a canvas image
+  function VertexFinder(canvas) {
+  }
 
+  VertexFinder.prototype.getAllVertices = function() {
+  }
+
+  //this object will be handling individual vertex particularly determining if a vertex is an edge or not
   function Vertex(x, y) {
     this.x = x;
     this.y = y;
