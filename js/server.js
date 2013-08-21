@@ -22,14 +22,14 @@ var serveErrorPage = function(res) {
       res.end(data2);
     }
   });
-}
+};
 
 
 var startServer = function() {
   var PORT = 8000;
   var app = http.createServer(function(req, res){
-	  var pathname = url.parse(req.url).pathname;
-	  if (pathname == '/') {
+    var pathname = url.parse(req.url).pathname;
+    if (pathname == '/') {
       serveStaticFile('index.html', 'text/html', res);
     } else {
       var type = pathname.indexOf('.js') > -1 ? 'text/javascript' :
@@ -39,7 +39,7 @@ var startServer = function() {
                  pathname.indexOf('.jpg') > -1 || pathname.indexOf('.jpeg') > -1 ? 'image/jpg' :
                  'text/plain';
       serveStaticFile(pathname.substring(1), type, res);
-	  }
+    }
   }).listen(PORT);
   console.log("Server started on port", PORT);
   return app;

@@ -32,7 +32,7 @@
 
   PathFinder.prototype.getAllPaths = function() {
     return this.allPaths;
-  }
+  };
 
   //this object is responsible for forming an individual path and is instantiated by PathFinder object
   function Path(vertices){
@@ -42,10 +42,10 @@
 
   Path.prototype.addVertex = function(vObj) {
     this.pathVertices.push(vObj);
-  }
+  };
 
   //this is the main function that will determine how the path will follow the vertex
   Path.prototype.followVertex = function(vObj) { 
-  }
+  };
 
 }(this));
