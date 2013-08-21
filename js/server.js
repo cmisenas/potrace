@@ -3,7 +3,7 @@ var http = require('http'),
     url = require('url');
 
 var serveStaticFile = function(filename, type, res) {
-  fs.readFile(filename, 'utf8', function (err1, data1) {
+  fs.readFile(filename, function (err1, data1) {
     if (data1) {
       res.writeHead(200, { 'Content-Type': type });
       res.end(data1);
