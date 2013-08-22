@@ -54,19 +54,20 @@ describe('Vertex Finder', function () {
     }, /No image data passed!/);
   });
 
-  it('should add a vertex to its internal array of all vertices', function () {
+  it('should add a vertex with its index as x + width * y to its internal array of all vertices', function () {
     objTests.vertexFinder = new VertexFinder(blankImgData);
 
     assert.equal(objTests.vertexFinder.addVertex({x: 1, y: 1}), true);
-    assert.equal(objTests.vertexFinder.getAllVertices().length, 1);
+    assert.equal(objTests.vertexFinder.getAllVertices()[4].x, 1);
+    assert.equal(objTests.vertexFinder.getAllVertices()[4].y, 1);
+    assert.equal(objTests.vertexFinder.getLength(), 1);
   });
   
   it('should be able to find all vertices that are edges', function () {
     objTests.vertexFinder = new VertexFinder(sqrImgData);
     objTests.vertexFinder.findAllVertices();
-    var allVertices = objTests.vertexFinder.getAllVertices();
 
-    assert.equal(allVertices.length, 4);
+    assert.equal(objTests.vertexFinder.getLength(), 4);
   });
 
   it('should return groups of vertex', function () {
@@ -75,7 +76,7 @@ describe('Vertex Finder', function () {
     objTests.vertexFinder.addVertex({x: 1, y: 0});
     objTests.vertexFinder.addVertex({x: 1, y: 1});
 
-    assert.equal(objTests.vertexFinder.getAllVertices().length, 3);
+    assert.equal(objTests.vertexFinder.getLength(), 3);
     assert.equal(objTests.vertexFinder.getAllVertices().join(''), '[object Object][object Object][object Object]');
   });
 

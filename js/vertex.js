@@ -12,10 +12,16 @@
     }
     this.imgData = imgData;
     this.allVertices = [];
+    this.vLength = 0;
   }
 
   VertexFinder.prototype.addVertex = function (coords) {
-    return typeof this.allVertices.push(new Vertex(coords.x, coords.y)) === 'number' ? true : false;
+    var index = coords.y * this.imgData.width + coords.x;
+    if (typeof (this.allVertices[index] = new Vertex(coords.x, coords.y)) === 'object') {
+      this.vLength++;
+      return true;
+    }
+    return false;
   };
 
   VertexFinder.prototype.findAllVertices = function () {
@@ -30,8 +36,12 @@
 		}
   };
 
-  VertexFinder.prototype.getAllVertices = function (coords) {
+  VertexFinder.prototype.getAllVertices = function () {
     return this.allVertices;
+  };
+
+  VertexFinder.prototype.getLength = function () {
+    return this.vLength;
   };
 
   //this object will be handling individual vertex particularly determining if a vertex is an edge or not
