@@ -49,10 +49,9 @@ describe('Vertex Finder', function () {
   });
 
   it('should throw an error if initialized without image data', function () {
-    var errorMsg = new Error('No image data passed!');
     assert.throws(function() {
       objTests.vertexFinder = new VertexFinder();
-    }, errorMsg.message);
+    }, /No image data passed!/);
   });
 
   it('should add a vertex to its internal array of all vertices', function () {
@@ -123,10 +122,9 @@ describe('Vertex', function() {
   });
 
   it('should throw error when initialized without x and y passed', function() {
-    var errorMsg = new Error('No x and y passed!');
     assert.throws(function() {
       objTests.vertex = new Vertex();
-    }, errorMsg.message);
+    }, /No x and y passed!/);
   });
 
   it('should be able to get its neighboring pixels correctly', function() {
