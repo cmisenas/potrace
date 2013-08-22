@@ -49,7 +49,7 @@ describe('Vertex Finder', function () {
   });
 
   it('should throw an error if initialized without image data', function () {
-    assert.throws(function() {
+    assert.throws(function () {
       objTests.vertexFinder = new VertexFinder();
     }, /No image data passed!/);
   });
@@ -90,7 +90,7 @@ describe('Vertex Finder', function () {
  * and its 4 neighboring vertex
  */
 
-describe('Vertex', function() {
+describe('Vertex', function () {
   setup(function () {
     blankImgData.height = 3;
     blankImgData.width = 3;
@@ -117,18 +117,18 @@ describe('Vertex', function() {
     delete objTests.vertex;
   });
 
-  it('should be able to initialize with x and y passed', function() {
+  it('should be able to initialize with x and y passed', function () {
     objTests.vertex = new Vertex(1, 1);
     assert.equal(objTests.vertex instanceof Vertex, true);
   });
 
-  it('should throw error when initialized without x and y passed', function() {
-    assert.throws(function() {
+  it('should throw error when initialized without x and y passed', function () {
+    assert.throws(function () {
       objTests.vertex = new Vertex();
     }, /No x and y passed!/);
   });
 
-  it('should be able to get its neighboring pixels correctly', function() {
+  it('should be able to get its neighboring pixels correctly', function () {
     objTests.vertex = new Vertex(1, 1);
     var neighbors = objTests.vertex.getNeighborPixels(3, 3);
 
@@ -142,7 +142,7 @@ describe('Vertex', function() {
     assert.equal(neighbors.se.y, 1);
   });
 
-  it('should be able to get its neighboring vertices correctly', function() {
+  it('should be able to get its neighboring vertices correctly', function () {
     objTests.vertex = new Vertex(1, 1);
     var neighbors = objTests.vertex.getNeighborVertices(3, 3);
 
@@ -156,11 +156,21 @@ describe('Vertex', function() {
     assert.equal(neighbors.w.y, 1);
   });
 
-  it('should handle getting neighbor pixels of vertices that are boundaries of the image', function() {
-    var vertex1 = new Vertex(0, 0);
-    var vertex2 = new Vertex(0, 1);
-    var neighbors1 = vertex1.getNeighborPixels(3, 3);
-    var neighbors2 = vertex2.getNeighborPixels(3, 3);
+  it('should be able to return its index on the grid not the image data', function () {
+    var vertex1 = new Vertex(0, 0),
+        vertex2 = new Vertex(0, 1);
+        vertex3 = new Vertex(1, 1);
+
+    assert.equal(vertex1.getIndex(3), 0);
+    assert.equal(vertex2.getIndex(3), 4);
+    assert.equal(vertex3.getIndex(3), 5);
+  });
+
+  it('should handle getting neighbor pixels of vertices that are boundaries of the image', function () {
+    var vertex1 = new Vertex(0, 0),
+        vertex2 = new Vertex(0, 1),
+        neighbors1 = vertex1.getNeighborPixels(3, 3),
+        neighbors2 = vertex2.getNeighborPixels(3, 3);
 
     assert.equal(neighbors1.nw, null);
     assert.equal(neighbors1.ne, null);
@@ -176,7 +186,7 @@ describe('Vertex', function() {
     assert.equal(neighbors2.se.y, 1);
   });
 
-  it('should handle getting neighbor vertices of vertices that are boundaries of the image', function() {
+  it('should handle getting neighbor vertices of vertices that are boundaries of the image', function () {
     var vertex1 = new Vertex(0, 0);
     var vertex2 = new Vertex(0, 1);
     var neighbors1 = vertex1.getNeighborVertices(3, 3);
@@ -197,7 +207,7 @@ describe('Vertex', function() {
     assert.equal(neighbors2.e.y, 1);
   });
 
-  it('should be able to determine if vertex is an edge', function() {
+  it('should be able to determine if vertex is an edge', function () {
     var vertex1 = new Vertex(1, 1),
         vertex2 = new Vertex(2, 2),
         vertex3 = new Vertex(3, 2),
