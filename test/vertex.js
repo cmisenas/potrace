@@ -129,7 +129,7 @@ describe('Vertex', function() {
 
   it('should be able to get its neighboring pixels correctly', function() {
     objTests.vertex = new Vertex(1, 1);
-    var neighbors = objTests.vertex.getNeighbors(3, 3);
+    var neighbors = objTests.vertex.getNeighborPixels(3, 3);
 
     assert.equal(neighbors.nw.x, 0);
     assert.equal(neighbors.nw.y, 0);
@@ -141,11 +141,25 @@ describe('Vertex', function() {
     assert.equal(neighbors.se.y, 1);
   });
 
-  it('should handle vertices that are boundaries of the image', function() {
+  it('should be able to get its neighboring vertices correctly', function() {
+    objTests.vertex = new Vertex(1, 1);
+    var neighbors = objTests.vertex.getNeighborVertices(3, 3);
+
+    assert.equal(neighbors.n.x, 1);
+    assert.equal(neighbors.n.y, 0);
+    assert.equal(neighbors.s.x, 1);
+    assert.equal(neighbors.s.y, 2);
+    assert.equal(neighbors.e.x, 2);
+    assert.equal(neighbors.e.y, 1);
+    assert.equal(neighbors.w.x, 0);
+    assert.equal(neighbors.w.y, 1);
+  });
+
+  it('should handle getting neighbor pixels of vertices that are boundaries of the image', function() {
     var vertex1 = new Vertex(0, 0);
     var vertex2 = new Vertex(0, 1);
-    var neighbors1 = vertex1.getNeighbors(3, 3);
-    var neighbors2 = vertex2.getNeighbors(3, 3);
+    var neighbors1 = vertex1.getNeighborPixels(3, 3);
+    var neighbors2 = vertex2.getNeighborPixels(3, 3);
 
     assert.equal(neighbors1.nw, null);
     assert.equal(neighbors1.ne, null);
@@ -159,6 +173,27 @@ describe('Vertex', function() {
     assert.equal(neighbors2.ne.y, 0);
     assert.equal(neighbors2.se.x, 0);
     assert.equal(neighbors2.se.y, 1);
+  });
+
+  it('should handle getting neighbor vertices of vertices that are boundaries of the image', function() {
+    var vertex1 = new Vertex(0, 0);
+    var vertex2 = new Vertex(0, 1);
+    var neighbors1 = vertex1.getNeighborVertices(3, 3);
+    var neighbors2 = vertex2.getNeighborVertices(3, 3);
+
+    assert.equal(neighbors1.n, null);
+    assert.equal(neighbors1.e.x, 1);
+    assert.equal(neighbors1.e.y, 0);
+    assert.equal(neighbors1.s.x, 0);
+    assert.equal(neighbors1.s.y, 1);
+
+    assert.equal(neighbors2.w, null);
+    assert.equal(neighbors2.n.x, 0);
+    assert.equal(neighbors2.n.y, 0);
+    assert.equal(neighbors2.s.x, 0);
+    assert.equal(neighbors2.s.y, 2);
+    assert.equal(neighbors2.e.x, 1);
+    assert.equal(neighbors2.e.y, 1);
   });
 
   it('should be able to determine if vertex is an edge', function() {

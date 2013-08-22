@@ -43,10 +43,7 @@
     this.y = y;
   }
 
-  Vertex.prototype.getNeighbors = function (width, height) {
-    this.width = width;
-    this.height = height;
-
+  Vertex.prototype.getNeighborPixels = function (width, height) {
     var neighbors = {};
     var checkedIfBorder = this.checkIfBorder(width, height);
 
@@ -54,6 +51,17 @@
     neighbors.ne = checkedIfBorder.top || checkedIfBorder.right ? null : {x: this.x, y: this.y - 1};
     neighbors.sw = checkedIfBorder.bottom || checkedIfBorder.left ? null : {x: this.x - 1, y: this.y};
     neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? null : {x: this.x, y: this.y};
+    return neighbors;
+  };
+
+  Vertex.prototype.getNeighborVertices = function (width, height) {
+    var neighbors = {};
+    var checkedIfBorder = this.checkIfBorder(width, height);
+
+    neighbors.n = checkedIfBorder.top ? null : {x: this.x, y: this.y - 1};
+    neighbors.s = checkedIfBorder.bottom ? null : {x: this.x, y: this.y + 1};
+    neighbors.e = checkedIfBorder.right ? null : {x: this.x + 1, y: this.y};
+    neighbors.w = checkedIfBorder.left ? null : {x: this.x - 1, y: this.y};
     return neighbors;
   };
 
@@ -67,7 +75,7 @@
   };
 
   Vertex.prototype.checkIfEdge = function (imgData) {
-    var neighbors = this.getNeighbors(imgData.width, imgData.height),
+    var neighbors = this.getNeighborPixels(imgData.width, imgData.height),
         currPixel, otherPixel;
 
     //the horror D:
