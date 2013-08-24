@@ -26,8 +26,8 @@
 
   VertexFinder.prototype.findAllVertices = function () {
     var vertex;
-		for (var y = 0, maxH = this.imgData.height; y < maxH; y++) {
-			for (var x = 0, maxW = this.imgData.width; x < maxW; x++) {
+		for (var y = 0, maxH = this.imgData.height; y <= maxH; y++) {
+			for (var x = 0, maxW = this.imgData.width; x <= maxW; x++) {
         vertex = new Vertex(x, y);
         if (vertex.checkIfEdge(this.imgData) === true) {
           this.addVertex(vertex);
@@ -62,10 +62,10 @@
     var neighbors = {};
     var checkedIfBorder = this.checkIfBorder(width, height);
 
-    neighbors.nw = checkedIfBorder.top || checkedIfBorder.left ? null : {x: this.x - 1, y: this.y - 1};
-    neighbors.ne = checkedIfBorder.top || checkedIfBorder.right ? null : {x: this.x, y: this.y - 1};
-    neighbors.sw = checkedIfBorder.bottom || checkedIfBorder.left ? null : {x: this.x - 1, y: this.y};
-    neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? null : {x: this.x, y: this.y};
+    neighbors.nw = checkedIfBorder.top || checkedIfBorder.left ? 255 : {x: this.x - 1, y: this.y - 1};
+    neighbors.ne = checkedIfBorder.top || checkedIfBorder.right ? 255 : {x: this.x, y: this.y - 1};
+    neighbors.sw = checkedIfBorder.bottom || checkedIfBorder.left ? 255 : {x: this.x - 1, y: this.y};
+    neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? 255 : {x: this.x, y: this.y};
     return neighbors;
   };
 
@@ -95,10 +95,12 @@
 
     //the horror D:
     for (currPixel in neighbors) {
-      if (neighbors.hasOwnProperty(currPixel) && neighbors[currPixel] !== null) {
+      if (neighbors.hasOwnProperty(currPixel)) {
+        var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel]  : imgData.data[coordsToIndex(neighbors[currPixel], imgData.width, 4)];
         for (otherPixel in neighbors) {
-          if (neighbors.hasOwnProperty(otherPixel) && neighbors[otherPixel] !== null) {
-            if (imgData.data[coordsToIndex(neighbors[currPixel], imgData.width, 4)] !== imgData.data[coordsToIndex(neighbors[otherPixel], imgData.width, 4)]) {
+          if (neighbors.hasOwnProperty(otherPixel) && currPixel !== otherPixel) {
+            var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[coordsToIndex(neighbors[otherPixel], imgData.width, 4)];
+            if (valToCompare !== otherValToCompare) {
               return true;
             }
           }

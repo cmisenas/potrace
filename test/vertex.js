@@ -172,14 +172,14 @@ describe('Vertex', function () {
         neighbors1 = vertex1.getNeighborPixels(3, 3),
         neighbors2 = vertex2.getNeighborPixels(3, 3);
 
-    assert.equal(neighbors1.nw, null);
-    assert.equal(neighbors1.ne, null);
-    assert.equal(neighbors1.sw, null);
+    assert.equal(neighbors1.nw, 255);
+    assert.equal(neighbors1.ne, 255);
+    assert.equal(neighbors1.sw, 255);
     assert.equal(neighbors1.se.x, 0);
     assert.equal(neighbors1.se.y, 0);
 
-    assert.equal(neighbors2.nw, null);
-    assert.equal(neighbors2.sw, null);
+    assert.equal(neighbors2.nw, 255);
+    assert.equal(neighbors2.sw, 255);
     assert.equal(neighbors2.ne.x, 0);
     assert.equal(neighbors2.ne.y, 0);
     assert.equal(neighbors2.se.x, 0);
