@@ -51,7 +51,7 @@
   };
 
   PathFinder.prototype.getCurrentPath = function () {
-    if (typeof this.currPath === 'undefined' || this.currPath.isCircular === true) {
+    if (typeof this.currPath === 'undefined') {
       this.currPath = new Path(this.imgData);
     }
     return this.currPath;
@@ -70,10 +70,13 @@
     while (this.count > 0) {
       for (currVertex in this.allVertices) {
         if (this.allVertices.hasOwnProperty(currVertex) && typeof this.allVertices[currVertex] !== 'undefined') {
-          while (this.getCurrentPath().isCircular === false && typeof this.allVertices[currVertex] !== 'undefined') {
+          while (this.getCurrentPath().isCircular === false) {
             nextVertex = this.followVertex(currVertex);
             this.addToPath(currVertex);
             currVertex = coordsToIndex(nextVertex, this.imgData.width, 1);
+            if (typeof this.allVertices[currVertex] === 'undefined') {
+              this.getCurrentPath().isCircular = true;
+            }
           }
           this.allPaths.push(this.getCurrentPath());
           delete this.currPath;

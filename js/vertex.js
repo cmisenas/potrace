@@ -15,9 +15,9 @@
     this.vLength = 0;
   }
 
-  VertexFinder.prototype.addVertex = function (coords) {
-    var index = coords.y * this.imgData.width + coords.x;
-    if (typeof (this.allVertices[index] = new Vertex(coords.x, coords.y)) === 'object') {
+  VertexFinder.prototype.addVertex = function (vertex) {
+    var index = coordsToIndex({x: vertex.x, y: vertex.y}, this.imgData.width, 1);
+    if (typeof (this.allVertices[index] = vertex) === 'object') {
       this.vLength++;
       return true;
     }
@@ -30,7 +30,7 @@
 			for (var x = 0, maxW = this.imgData.width; x < maxW; x++) {
         vertex = new Vertex(x, y);
         if (vertex.checkIfEdge(this.imgData) === true) {
-          this.addVertex({x: x, y: y});
+          this.addVertex(vertex);
         }
 			}
 		}
