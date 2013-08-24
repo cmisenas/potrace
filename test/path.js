@@ -124,8 +124,8 @@ describe('Path Finder', function() {
 
   it('should be able to follow a set of vertices given a grid index and turn correctly', function () {
     objTests.pathFinder = new PathFinder(vertices, sqrImgData);
-    var index = 5,
-        nextVertex = objTests.pathFinder.followVertex(index);
+    var vertexObj = objTests.pathFinder.allVertices[5],
+        nextVertex = objTests.pathFinder.followVertex(vertexObj);
     
     assert.equal(nextVertex.x, 1);
     assert.equal(nextVertex.y, 2);

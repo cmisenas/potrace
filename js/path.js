@@ -11,8 +11,8 @@
     this.count = this.countVertices();
   }
 
-  PathFinder.prototype.followVertex = function (vertexIndex) {
-    var currVertex = this.allVertices[vertexIndex],
+  PathFinder.prototype.followVertex = function (vertex) {
+    var currVertex = vertex,
         neighborP = currVertex.getNeighborPixels(this.imgData.width, this.imgData.height),
         neighborV = currVertex.getNeighborVertices(this.imgData.width, this.imgData.height),
         nextVertex;
@@ -65,16 +65,17 @@
   };
 
   PathFinder.prototype.findAllPaths = function () {
-    var path, nextVertex, currVertex;
+    var path, nextVertex, currVertexInd, currVertexObj;
   
     while (this.count > 0) {
-      for (currVertex in this.allVertices) {
-        if (this.allVertices.hasOwnProperty(currVertex) && typeof this.allVertices[currVertex] !== 'undefined') {
+      for (currVertexInd in this.allVertices) {
+        if (this.allVertices.hasOwnProperty(currVertexInd) && typeof this.allVertices[currVertexInd] !== 'undefined') {
           while (this.getCurrentPath().isCircular === false) {
-            nextVertex = this.followVertex(currVertex);
-            this.addToPath(currVertex);
-            currVertex = coordsToIndex(nextVertex, this.imgData.width, 1);
-            if (typeof this.allVertices[currVertex] === 'undefined') {
+            currVertexObj = this.allVertices[currVertexInd];
+            nextVertex = this.followVertex(currVertexObj);
+            this.addToPath(currVertexInd);
+            currVertexInd = coordsToIndex(nextVertex, this.imgData.width, 1);
+            if (typeof this.allVertices[currVertexInd] === 'undefined') {
               this.getCurrentPath().isCircular = true;
             }
           }
