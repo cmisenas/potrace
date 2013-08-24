@@ -98,7 +98,7 @@
       if (neighbors.hasOwnProperty(currPixel) && neighbors[currPixel] !== null) {
         for (otherPixel in neighbors) {
           if (neighbors.hasOwnProperty(otherPixel) && neighbors[otherPixel] !== null) {
-            if (imgData.data[coordsToIndex(neighbors[currPixel], imgData.width)] !== imgData.data[coordsToIndex(neighbors[otherPixel], imgData.width)]) {
+            if (imgData.data[coordsToIndex(neighbors[currPixel], imgData.width, 4)] !== imgData.data[coordsToIndex(neighbors[otherPixel], imgData.width, 4)]) {
               return true;
             }
           }
@@ -109,8 +109,8 @@
     return false;
   };
   
-  function coordsToIndex (coords, width) {
-    return (coords.x * 4) + (coords.y * width * 4);  
+  function coordsToIndex (coords, width, m) {
+    return (coords.x * m) + (coords.y * width * m);  
   }
 
   exports.VertexFinder = VertexFinder;
