@@ -7,13 +7,8 @@ var objTests = {
       vertex: null
     },
     blankImgData = {},
-    sqrImgData = {};
-
-/*
- * Vertex Finder is responsible for gathering all vertices
- * It is given an image data and iterates through each of that
- * It does not mind which vertices are connected or not
- */
+    sqrImgData = {},
+    cornerSqrImgData = {};
 
 describe('Vertex Finder', function () {
   setup(function () {
@@ -36,6 +31,21 @@ describe('Vertex Finder', function () {
     sqrImgData.data[20] = 0;
     sqrImgData.data[21] = 0;
     sqrImgData.data[22] = 0;
+
+    cornerSqrImgData.height = 4;
+    cornerSqrImgData.width = 4;
+    var blackPixels = [0, 1, 2, 4, 5, 6, 16, 17, 18, 20, 21, 22]; 
+
+    //4 elements for each pixel for r, g, b, a values
+    cornerSqrImgData.data = new Uint8ClampedArray(cornerSqrImgData.height * cornerSqrImgData.width * 4);
+    for (var j = 0; j < cornerSqrImgData.data.length; j++) {
+      if (blackPixels.indexOf(j) > -1) {
+        cornerSqrImgData.data[j] = 0;
+      } else {
+        cornerSqrImgData.data[j] = 255;
+      }
+    }
+    //Make one pixel black so there will be an existing 'edge' 
   });
 
   beforeEach(function () {
@@ -69,6 +79,13 @@ describe('Vertex Finder', function () {
 
     assert.equal(objTests.vertexFinder.getLength(), 4);
   });
+  
+  it('should be able to find all edge vertices even those that touch the boundaries of the image', function () {
+    objTests.vertexFinder = new VertexFinder(cornerSqrImgData);
+    objTests.vertexFinder.findAllVertices();
+
+    assert.equal(objTests.vertexFinder.getLength(), 8);
+  });
 
   it('should return groups of vertex', function () {
     objTests.vertexFinder = new VertexFinder(blankImgData);
@@ -81,14 +98,6 @@ describe('Vertex Finder', function () {
   });
 
 });
-
-/*
- * Vertex is just an object created to
- * check if a given coordinate of a vertex is in fact an edge
- * and to handle vertices that are on the boundaries of an image
- * it also has a method to get its 4 neighboring pixels
- * and its 4 neighboring vertex
- */
 
 describe('Vertex', function () {
   setup(function () {
