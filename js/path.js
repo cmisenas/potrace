@@ -66,7 +66,7 @@
 
   PathFinder.prototype.findAllPaths = function () {
     var path, nextVertex, currVertexInd, currVertexObj;
-  
+
     while (this.count > 0) {
       for (currVertexInd in this.allVertices) {
         if (this.allVertices.hasOwnProperty(currVertexInd) && typeof this.allVertices[currVertexInd] !== 'undefined') {
@@ -101,7 +101,7 @@
     if (typeof vertex === 'undefined') {
       throw new Error('No vertex to add to path!');
     }
-    
+
     if (this.vertices.length > 0 &&
         this.vertices[0].x === vertex.x &&
         this.vertices[0].y === vertex.y) {
@@ -161,7 +161,7 @@
   }
 
   function coordsToIndex (coords, width, m) {
-    return (coords.x * m) + (coords.y * width * m);  
+    return (coords.x * m) + (coords.y * width * m);
   }
 
   exports.PathFinder = PathFinder;

@@ -24,7 +24,7 @@ function indexToCoords(i, w, m) {
 }
 
 function coordsToIndex (coords, width, m) {
-  return (coords.x * m) + (coords.y * width * m);  
+  return (coords.x * m) + (coords.y * width * m);
 }
 
 
@@ -46,7 +46,7 @@ describe('Path Finder', function() {
         neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? null : {x: this.x, y: this.y};
         return neighbors;
       },
-      
+
       checkIfBorder : function (width, height) {
         var borders = {};
         borders.top = this.y === 0 ? true : false;
@@ -126,7 +126,7 @@ describe('Path Finder', function() {
     objTests.pathFinder = new PathFinder(vertices, sqrImgData);
     var vertexObj = objTests.pathFinder.allVertices[5],
         nextVertex = objTests.pathFinder.followVertex(vertexObj);
-    
+
     assert.equal(nextVertex.x, 1);
     assert.equal(nextVertex.y, 2);
   });
@@ -286,7 +286,7 @@ describe('Path', function() {
 
     var vertex1 = objTests.path.find(5),
         vertex2 = objTests.path.find({x: 1, y: 1});
-    
+
     assert.equal(vertex1.x, vertex2.x);
     assert.equal(vertex1.y, vertex2.y);
     assert.equal(coordsToIndex(vertex1, 4, 1), coordsToIndex(vertex2, 4, 1));

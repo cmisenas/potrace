@@ -27,14 +27,14 @@ describe('Vertex Finder', function () {
     for (var j = 0; j < sqrImgData.data.length; j++) {
       sqrImgData.data[j] = 255;
     }
-    //Make one pixel black so there will be an existing 'edge' 
+    //Make one pixel black so there will be an existing 'edge'
     sqrImgData.data[20] = 0;
     sqrImgData.data[21] = 0;
     sqrImgData.data[22] = 0;
 
     cornerSqrImgData.height = 4;
     cornerSqrImgData.width = 4;
-    var blackPixels = [0, 1, 2, 4, 5, 6, 16, 17, 18, 20, 21, 22]; 
+    var blackPixels = [0, 1, 2, 4, 5, 6, 16, 17, 18, 20, 21, 22];
 
     //4 elements for each pixel for r, g, b, a values
     cornerSqrImgData.data = new Uint8ClampedArray(cornerSqrImgData.height * cornerSqrImgData.width * 4);
@@ -45,7 +45,7 @@ describe('Vertex Finder', function () {
         cornerSqrImgData.data[j] = 255;
       }
     }
-    //Make one pixel black so there will be an existing 'edge' 
+    //Make one pixel black so there will be an existing 'edge'
   });
 
   beforeEach(function () {
@@ -72,14 +72,14 @@ describe('Vertex Finder', function () {
     assert.equal(objTests.vertexFinder.getAllVertices()[4].y, 1);
     assert.equal(objTests.vertexFinder.getLength(), 1);
   });
-  
+
   it('should be able to find all vertices that are edges', function () {
     objTests.vertexFinder = new VertexFinder(sqrImgData);
     objTests.vertexFinder.findAllVertices();
 
     assert.equal(objTests.vertexFinder.getLength(), 4);
   });
-  
+
   it('should be able to find all edge vertices even those that touch the boundaries of the image', function () {
     objTests.vertexFinder = new VertexFinder(cornerSqrImgData);
     objTests.vertexFinder.findAllVertices();
@@ -116,7 +116,7 @@ describe('Vertex', function () {
     for (var j = 0; j < sqrImgData.data.length; j++) {
       sqrImgData.data[j] = 255;
     }
-    //Make one pixel black so there will be an existing 'edge' 
+    //Make one pixel black so there will be an existing 'edge'
     sqrImgData.data[20] = 0;
     sqrImgData.data[21] = 0;
     sqrImgData.data[22] = 0;

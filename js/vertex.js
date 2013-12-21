@@ -26,14 +26,14 @@
 
   VertexFinder.prototype.findAllVertices = function () {
     var vertex;
-		for (var y = 0, maxH = this.imgData.height; y <= maxH; y++) {
-			for (var x = 0, maxW = this.imgData.width; x <= maxW; x++) {
+    for (var y = 0, maxH = this.imgData.height; y <= maxH; y++) {
+      for (var x = 0, maxW = this.imgData.width; x <= maxW; x++) {
         vertex = new Vertex(x, y);
         if (vertex.checkIfEdge(this.imgData) === true) {
           this.addVertex(vertex);
         }
-			}
-		}
+      }
+    }
   };
 
   VertexFinder.prototype.getAllVertices = function () {
@@ -110,9 +110,9 @@
 
     return false;
   };
-  
+
   function coordsToIndex (coords, width, m) {
-    return (coords.x * m) + (coords.y * width * m);  
+    return (coords.x * m) + (coords.y * width * m);
   }
 
   exports.VertexFinder = VertexFinder;
