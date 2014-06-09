@@ -7,7 +7,8 @@
   var resetBtn = document.getElementById('reset'),
       thresholdBtn = document.getElementById('threshold'),
       getVerticesBtn = document.getElementById('vertices'),
-      getPathBtn = document.getElementById('path');
+      getPathBtn = document.getElementById('path'),
+      buildSVGBtn = document.getElementById('svg-build');
 
   loadBtn.onclick = function () {
     var usrImg = document.getElementById('usrImg').value;
@@ -35,9 +36,22 @@
     pathFinder.findAllPaths();
     paths = pathFinder.getAllPaths();
     exports.paths = paths;
+    buildSVGBtn.disabled = false;
   };
+
+  buildSVGBtn.onclick = function () {
+    for (var i = 0; i < exports.paths.length; i++) {
+      var currentPath = exports.paths[i],
+          pathBuilder = new SVGBuilder(currentPath);
+
+      pathBuilder.renderSVGElement();
+    }
+    pathBuilder.setDimensions();
+    console.log('Success building SVGs');
+  }
 
   resetBtn.onclick = function() {
     canvas.ctx.putImageData(canvas.currentImg.imgData, 0, 0);//put back the original image to the canvas
+    $('svg').remove();
   };
 }(this));
