@@ -8,6 +8,7 @@
       thresholdBtn = document.getElementById('threshold'),
       getVerticesBtn = document.getElementById('vertices'),
       getPathBtn = document.getElementById('path'),
+      buildPolygonBtn = document.getElementById('polygon'),
       buildSVGBtn = document.getElementById('svg-build');
 
   loadBtn.onclick = function () {
@@ -36,6 +37,7 @@
     pathFinder.findAllPaths();
     paths = pathFinder.getAllPaths();
     exports.paths = paths;
+    buildPolygonBtn.disabled = false;
     buildSVGBtn.disabled = false;
   };
 
@@ -47,8 +49,18 @@
       pathBuilder.renderSVGElement();
     }
     pathBuilder.setDimensions();
-    console.log('Success building SVGs');
-  }
+  };
+
+  buildPolygonBtn.onclick = function () {
+    for (var i = 0; i < exports.paths.length; i++) {
+      if(i === 3) { exports.fourtOne = true; }
+      var polygon = new Polygon(exports.paths[i]);
+      var polygonPaths = polygon.build();
+      var pathBuilder = new SVGBuilder(polygonPaths);
+      pathBuilder.renderSVGElement();
+    }
+    pathBuilder.setDimensions();
+  };
 
   resetBtn.onclick = function() {
     canvas.ctx.putImageData(canvas.currentImg.imgData, 0, 0);//put back the original image to the canvas
