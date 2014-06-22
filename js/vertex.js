@@ -1,4 +1,10 @@
 ;(function(exports) {
+  var _;
+  if (exports._ === undefined && typeof require !== "undefined") {
+    _ = require('../js/helpers').Helpers;
+  } else {
+    _ = exports._;
+  }
 
   /*
    * Iterate through the canvas image vertex (NW point)
@@ -16,7 +22,7 @@
   }
 
   VertexFinder.prototype.addVertex = function (vertex) {
-    var index = coordsToIndex({x: vertex.x, y: vertex.y}, this.imgData.width, 1);
+    var index = _.coordsToIndex({x: vertex.x, y: vertex.y}, this.imgData.width, 1);
     if (typeof (this.allVertices[index] = vertex) === 'object') {
       this.vLength++;
       return true;
@@ -91,10 +97,10 @@
     //the horror D:
     for (currPixel in neighbors) {
       if (neighbors.hasOwnProperty(currPixel)) {
-        var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel]  : imgData.data[coordsToIndex(neighbors[currPixel], imgData.width, 4)];
+        var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel]  : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width, 4)];
         for (otherPixel in neighbors) {
           if (neighbors.hasOwnProperty(otherPixel) && currPixel !== otherPixel) {
-            var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[coordsToIndex(neighbors[otherPixel], imgData.width, 4)];
+            var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width, 4)];
             if (valToCompare !== otherValToCompare) {
               return true;
             }
@@ -105,10 +111,6 @@
 
     return false;
   };
-
-  function coordsToIndex (coords, width, m) {
-    return (coords.x * m) + (coords.y * width * m);
-  }
 
   exports.VertexFinder = VertexFinder;
   exports.Vertex = Vertex;

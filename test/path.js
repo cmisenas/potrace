@@ -1,4 +1,5 @@
 var assert = require('assert'),
+    _ = require('../js/helpers').Helpers,
     PathFinder = require('../js/path').PathFinder,
     Path = require('../js/path').Path;
 
@@ -14,18 +15,6 @@ var objTests = {
     blankImgData = {},
     sqrImgData = {},
     twoSqrImgData = {};
-
-function indexToCoords(i, w, m) {
-  //coordinates are always going to be the top left corner of a pixel
-  return {
-          x : (i % (w * m)) / m,
-          y : Math.floor(i / (w * m))
-         };
-}
-
-function coordsToIndex (coords, width, m) {
-  return (coords.x * m) + (coords.y * width * m);
-}
 
 
 describe('Path Finder', function() {
@@ -81,7 +70,7 @@ describe('Path Finder', function() {
     sqrImgData.data = new Uint8ClampedArray(sqrImgData.height * sqrImgData.width * 4);
     for (var j = 0; j < sqrImgData.data.length; j++) {
       if (verticesIndices.indexOf(j) > -1) {
-        var coords = indexToCoords(j, sqrImgData.width, 4);
+        var coords = _.indexToCoords(j, sqrImgData.width, 4);
         vertices[j/4] = new Vertex({x: coords.x, y: coords.y});
       }
       if (blackPixels.indexOf(j) > -1) {
@@ -98,7 +87,7 @@ describe('Path Finder', function() {
     twoSqrImgData.data = new Uint8ClampedArray(twoSqrImgData.height * twoSqrImgData.width * 4);
     for (var k = 0; k < twoSqrImgData.data.length; k++) {
       if (bigVerticesIndices.indexOf(k) > -1) {
-        var twoSqrCoords = indexToCoords(k, twoSqrImgData.width, 4);
+        var twoSqrCoords = _.indexToCoords(k, twoSqrImgData.width, 4);
         bigVertices[k/4] = new Vertex({x: twoSqrCoords.x, y: twoSqrCoords.y});
       }
       if (twoBlackPixels.indexOf(k) > -1) {
@@ -186,7 +175,7 @@ describe('Path', function() {
     sqrImgData.data = new Uint8ClampedArray(sqrImgData.height * sqrImgData.width * 4);
     for (var j = 0; j < sqrImgData.data.length; j++) {
       if (verticesIndices.indexOf(j) > -1) {
-        coords = indexToCoords(j, sqrImgData.width, 4);
+        coords = _.indexToCoords(j, sqrImgData.width, 4);
         vertices[j/4] = new Vertex({x: coords.x, y: coords.y});
       }
       if (blackPixels.indexOf(j) > -1) {
@@ -202,7 +191,7 @@ describe('Path', function() {
     var width = 4,
         coords;
     for (var i = 0; i < verticesIndices.length; i++) {
-      coords = indexToCoords(verticesIndices[i], width, 4);
+      coords = _.indexToCoords(verticesIndices[i], width, 4);
       vertices[verticesIndices[i]/4] = new Vertex({x: coords.x, y: coords.y});
     }
 
@@ -289,6 +278,6 @@ describe('Path', function() {
 
     assert.equal(vertex1.x, vertex2.x);
     assert.equal(vertex1.y, vertex2.y);
-    assert.equal(coordsToIndex(vertex1, 4, 1), coordsToIndex(vertex2, 4, 1));
+    assert.equal(_.coordsToIndex(vertex1, 4, 1), _.coordsToIndex(vertex2, 4, 1));
   });
 });

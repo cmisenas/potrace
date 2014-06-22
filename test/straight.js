@@ -89,14 +89,6 @@ Vertex.prototype = {
     }
 };
 
-function indexToCoords(i, w, m) {
-  //coordinates are always going to be the top left corner of a pixel
-  return {
-          x : (i % (w * m)) / m,
-          y : Math.floor(i / (w * m))
-         };
-}
-
 describe("Straight Line", function() {
   setup(function () {
     allPaths1 = [

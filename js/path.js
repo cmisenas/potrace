@@ -1,4 +1,10 @@
 ;(function(exports) {
+  var _;
+  if (exports._ === undefined && typeof require !== "undefined") {
+    _ = require('../js/helpers').Helpers;
+  } else {
+    _ = exports._;
+  }
 
   //this object is responsible for getting all paths given all the vertices in gathered in the image
   function PathFinder(vertices, imgData) {
@@ -18,20 +24,20 @@
         nextVertex;
 
     if (neighborP.nw !== null && neighborP.ne !== null &&
-        this.imgData.data[coordsToIndex(neighborP.nw, this.imgData.width, 4)] === 0 &&
-        this.imgData.data[coordsToIndex(neighborP.ne, this.imgData.width, 4)] === 255) {
+        this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width, 4)] === 0 &&
+        this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width, 4)] === 255) {
       nextVertex = new Vertex(neighborV.n.x, neighborV.n.y);
     } else if (neighborP.ne !== null && neighborP.se !== null &&
-        this.imgData.data[coordsToIndex(neighborP.ne, this.imgData.width, 4)] === 0 &&
-        this.imgData.data[coordsToIndex(neighborP.se, this.imgData.width, 4)] === 255) {
+        this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width, 4)] === 0 &&
+        this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width, 4)] === 255) {
       nextVertex = new Vertex(neighborV.e.x, neighborV.e.y);
     } else if (neighborP.se !== null && neighborP.sw !== null &&
-        this.imgData.data[coordsToIndex(neighborP.se, this.imgData.width, 4)] === 0 &&
-        this.imgData.data[coordsToIndex(neighborP.sw, this.imgData.width, 4)] === 255) {
+        this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width, 4)] === 0 &&
+        this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width, 4)] === 255) {
       nextVertex = new Vertex(neighborV.s.x, neighborV.s.y);
     } else if (neighborP.sw !== null && neighborP.nw !== null &&
-        this.imgData.data[coordsToIndex(neighborP.sw, this.imgData.width, 4)] === 0 &&
-        this.imgData.data[coordsToIndex(neighborP.nw, this.imgData.width, 4)] === 255) {
+        this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width, 4)] === 0 &&
+        this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width, 4)] === 255) {
       nextVertex = new Vertex(neighborV.w.x, neighborV.w.y);
     }
 
@@ -74,7 +80,7 @@
             currVertexObj = this.allVertices[currVertexInd];
             nextVertex = this.followVertex(currVertexObj);
             this.addToPath(currVertexInd);
-            currVertexInd = coordsToIndex(nextVertex, this.imgData.width, 1);
+            currVertexInd = _.coordsToIndex(nextVertex, this.imgData.width, 1);
             if (typeof this.allVertices[currVertexInd] === 'undefined') {
               this.getCurrentPath().isCircular = true;
             }
@@ -123,7 +129,7 @@
       throw new Error('No vertex to find!');
     }
     if (typeof vertex === 'number') {
-      vertex = indexToCoords(vertex, this.imgData.width, 1);
+      vertex = _.indexToCoords(vertex, this.imgData.width, 1);
     }
     for (var i = 0, max = this.vertices.length; i < max; i++) {
       if (this.vertices[i].x === vertex.x &&
@@ -139,7 +145,7 @@
       throw new Error('No vertex index or coords provided!');
     }
     if (typeof vertexIorC === 'number') {
-      vertexIorC = indexToCoords(vertexIorC, this.imgData.width, 1);
+      vertexIorC = _.indexToCoords(vertexIorC, this.imgData.width, 1);
     }
     if (this.contains(vertexIorC) === false) {
       return false;
@@ -151,18 +157,6 @@
       }
     }
   };
-
-  function indexToCoords(index, width, m) {
-    //coordinates are always going to be the top left corner of a pixel
-    return {
-            x : (index % (width * m)) / m,
-            y : Math.floor(index / (width * m))
-           };
-  }
-
-  function coordsToIndex (coords, width, m) {
-    return (coords.x * m) + (coords.y * width * m);
-  }
 
   exports.PathFinder = PathFinder;
   exports.Path = Path;
