@@ -1,4 +1,5 @@
 var assert = require('assert'),
+    sinon = require('sinon'),
     _ = require('../js/helpers').Helpers,
     PathFinder = require('../js/path').PathFinder,
     Path = require('../js/path').Path;
@@ -8,7 +9,7 @@ var objTests = {
       path: null
     },
     Vertex,
-    vertices = [],
+    smallVertices = [],
     bigVertices = [],
     verticesIndices,
     bigVerticesIndices,
@@ -24,83 +25,64 @@ describe('Path Finder', function() {
       this.y = y;
     };
 
-    Vertex.prototype = {
-      getNeighborPixels : function (width, height) {
-        var neighbors = {};
-        var checkedIfBorder = this.checkIfBorder(width, height);
-
-        neighbors.nw = checkedIfBorder.top || checkedIfBorder.left ? null : {x: this.x - 1, y: this.y - 1};
-        neighbors.ne = checkedIfBorder.top || checkedIfBorder.right ? null : {x: this.x, y: this.y - 1};
-        neighbors.sw = checkedIfBorder.bottom || checkedIfBorder.left ? null : {x: this.x - 1, y: this.y};
-        neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? null : {x: this.x, y: this.y};
-        return neighbors;
-      },
-
-      checkIfBorder : function (width, height) {
-        var borders = {};
-        borders.top = this.y === 0 ? true : false;
-        borders.bottom = this.y === height ? true : false;
-        borders.left = this.x === 0 ? true : false;
-        borders.right = this.x === width ? true : false;
-        return borders;
-      },
-
-      getNeighborVertices : function (width, height) {
-          var neighbors = {};
-          var checkedIfBorder = this.checkIfBorder(width, height);
-
-          neighbors.n = checkedIfBorder.top ? null : {x: this.x, y: this.y - 1};
-          neighbors.s = checkedIfBorder.bottom ? null : {x: this.x, y: this.y + 1};
-          neighbors.e = checkedIfBorder.right ? null : {x: this.x + 1, y: this.y};
-          neighbors.w = checkedIfBorder.left ? null : {x: this.x - 1, y: this.y};
-          return neighbors;
-        }
-    };
-
     verticesIndices = [20, 24, 28, 36, 44, 52, 56, 60];
     bigVerticesIndices = [44, 48, 52, 84, 92, 124, 128, 132];
     bigVerticesIndices = bigVerticesIndices.concat([176, 180, 184, 188, 216, 228, 256, 268, 296, 300, 304, 308]);
   });
 
   beforeEach(function () {
-    var blackPixels = [20, 21, 22, 24, 25, 26, 36, 37, 38, 40, 41, 42];
+    var smallBlackPixels = [20, 21, 22, 24, 25, 26, 36, 37, 38, 40, 41, 42];
     sqrImgData.height = 4;
     sqrImgData.width = 4;
     //4 elements for each pixel for r, g, b, a values
     sqrImgData.data = new Uint8ClampedArray(sqrImgData.height * sqrImgData.width * 4);
-    for (var j = 0; j < sqrImgData.data.length; j++) {
-      if (verticesIndices.indexOf(j) > -1) {
-        var coords = _.indexToCoords(j, sqrImgData.width, 4);
-        vertices[j/4] = new Vertex(coords.x, coords.y);
-      }
-      if (blackPixels.indexOf(j) > -1) {
-        sqrImgData.data[j] = 0;
-      } else {
-        sqrImgData.data[j] = 255;
-      }
-    }
+    buildStubs(sqrImgData, smallBlackPixels, verticesIndices, smallVertices);
 
-    var twoBlackPixels = [44, 45, 46, 48, 49, 50, 84, 85, 86, 88, 89, 90, 176, 177, 178, 180, 181, 182, 184, 185, 186, 216, 217, 218, 220, 221, 222, 224, 225, 226, 256, 257, 258, 260, 261, 262, 264, 265, 266];
+    var twoBlackPixels = [44, 45, 46, 48, 49, 50, 84, 85, 86, 88, 89, 90, 176, 177, 178, 180, 181, 182, 184, 185, 186,
+                          216, 217, 218, 220, 221, 222, 224, 225, 226, 256, 257, 258, 260, 261, 262, 264, 265, 266];
     twoSqrImgData.height = 10;
     twoSqrImgData.width = 10;
     //4 elements for each pixel for r, g, b, a values
     twoSqrImgData.data = new Uint8ClampedArray(twoSqrImgData.height * twoSqrImgData.width * 4);
-    for (var k = 0; k < twoSqrImgData.data.length; k++) {
-      if (bigVerticesIndices.indexOf(k) > -1) {
-        var twoSqrCoords = _.indexToCoords(k, twoSqrImgData.width, 4);
-        bigVertices[k/4] = new Vertex(twoSqrCoords.x, twoSqrCoords.y);
-      }
-      if (twoBlackPixels.indexOf(k) > -1) {
-        twoSqrImgData.data[k] = 0;
-      } else {
-        twoSqrImgData.data[k] = 255;
+    buildStubs(twoSqrImgData, twoBlackPixels, bigVerticesIndices, bigVertices);
+
+    // this changes the objects passed to it
+    function buildStubs(imgData, blackPixels, verticesIndices, vertices) {
+      for (var j = 0; j < imgData.data.length; j++) {
+        if (verticesIndices.indexOf(j) > -1) {
+          var coords = _.indexToCoords(j, imgData.width, 4),
+              getNeighborPixels = sinon.stub(),
+              getNeighborVertices = sinon.stub();
+          vertices[j/4] = new Vertex(coords.x, coords.y);
+          //for simplification but sacrificing coverage,
+          //we do not have edges in the image border yet
+          getNeighborPixels.returns({
+              nw: { x: coords.x - 1, y: coords.y - 1 },
+              ne: { x: coords.x, y: coords.y - 1 },
+              sw: { x: coords.x - 1, y: coords.y },
+              se: { x: coords.x, y: coords.y }
+          });
+          getNeighborVertices.returns({
+            n: { x: coords.x, y: coords.y - 1 },
+            s: { x: coords.x, y: coords.y + 1 },
+            e: { x: coords.x + 1, y: coords.y },
+            w: { x: coords.x - 1, y: coords.y }
+          });
+          vertices[j/4].getNeighborPixels = getNeighborPixels;
+          vertices[j/4].getNeighborVertices = getNeighborVertices;
+        }
+        if (blackPixels.indexOf(j) > -1) {
+          imgData.data[j] = 0;
+        } else {
+          imgData.data[j] = 255;
+        }
       }
     }
   });
 
   it('should be initialized given array of vertices and image data', function () {
     assert.doesNotThrow(function () {
-      objTests.pathFinder = new PathFinder(vertices, sqrImgData);
+      objTests.pathFinder = new PathFinder(smallVertices, sqrImgData);
     });
     assert.equal(objTests.pathFinder instanceof PathFinder, true);
   });
@@ -112,23 +94,39 @@ describe('Path Finder', function() {
   });
 
   it('should be able to follow a set of vertices given a grid index and turn correctly', function () {
-    objTests.pathFinder = new PathFinder(vertices, sqrImgData, Vertex);
-    var vertexObj = objTests.pathFinder.allVertices[5],
-        nextVertex = objTests.pathFinder.followVertex(vertexObj);
+    var getNeighborPixels = sinon.stub(),
+        getNeighborVertices = sinon.stub();
+    getNeighborPixels.returns({
+        nw: { x: 0, y: 0 },
+        ne: { x: 1, y: 0 },
+        sw: { x: 0, y: 1 },
+        se: { x: 1, y: 1 }
+    });
+    getNeighborVertices.returns({
+      n: { x: 1, y: 0 },
+      s: { x: 1, y: 2 },
+      e: { x: 2, y: 1 },
+      w: { x: 0, y: 1 }
+    });
+    var vertexObj = objTests.pathFinder.allVertices[5];
+    vertexObj.getNeighborPixels = getNeighborPixels;
+    vertexObj.getNeighborVertices = getNeighborVertices;
+    objTests.pathFinder = new PathFinder(smallVertices, sqrImgData, Vertex);
+    var nextVertex = objTests.pathFinder.followVertex(vertexObj);
 
     assert.equal(nextVertex.x, 1);
     assert.equal(nextVertex.y, 2);
   });
 
   it('should have a function to return the number of vertices it currently has', function () {
-    objTests.pathFinder = new PathFinder(vertices, sqrImgData);
+    objTests.pathFinder = new PathFinder(smallVertices, sqrImgData);
     var current = objTests.pathFinder.countVertices();
 
     assert.equal(8, current);
   });
 
   it('should be able to add a vertex to a path then delete it in its stored vertices array', function () {
-    objTests.pathFinder = new PathFinder(vertices, sqrImgData);
+    objTests.pathFinder = new PathFinder(smallVertices, sqrImgData);
     var vertexIndex = 5,
         current = objTests.pathFinder.countVertices();
     objTests.pathFinder.addToPath(vertexIndex);
@@ -138,7 +136,7 @@ describe('Path Finder', function() {
   });
 
   it('should be able to find and return a single path from a 4x4 sample', function () {
-    objTests.pathFinder = new PathFinder(vertices, sqrImgData, Vertex);
+    objTests.pathFinder = new PathFinder(smallVertices, sqrImgData, Vertex);
     objTests.pathFinder.findAllPaths();
     var allPaths = objTests.pathFinder.getAllPaths();
 
@@ -168,7 +166,7 @@ describe('Path Finder', function() {
 
 describe('Path', function() {
   setup(function () {
-    var blackPixels = [20, 21, 22, 24, 25, 26, 36, 37, 38, 40, 41, 42];
+    var smallBlackPixels = [20, 21, 22, 24, 25, 26, 36, 37, 38, 40, 41, 42];
     sqrImgData.height = 4;
     sqrImgData.width = 4;
     //4 elements for each pixel for r, g, b, a values
@@ -176,9 +174,9 @@ describe('Path', function() {
     for (var j = 0; j < sqrImgData.data.length; j++) {
       if (verticesIndices.indexOf(j) > -1) {
         coords = _.indexToCoords(j, sqrImgData.width, 4);
-        vertices[j/4] = new Vertex(coords.x, coords.y);
+        smallVertices[j/4] = new Vertex(coords.x, coords.y);
       }
-      if (blackPixels.indexOf(j) > -1) {
+      if (smallBlackPixels.indexOf(j) > -1) {
         sqrImgData.data[j] = 0;
       } else {
         sqrImgData.data[j] = 255;
@@ -192,7 +190,7 @@ describe('Path', function() {
         coords;
     for (var i = 0; i < verticesIndices.length; i++) {
       coords = _.indexToCoords(verticesIndices[i], width, 4);
-      vertices[verticesIndices[i]/4] = new Vertex(coords.x, coords.y);
+      smallVertices[verticesIndices[i]/4] = new Vertex(coords.x, coords.y);
     }
 
     objTests.path = new Path(sqrImgData);
@@ -217,9 +215,9 @@ describe('Path', function() {
         falseIndex = 17,
         trueCoord = {x: 1, y: 1},
         trueIndex = 5;
-    for (var i in vertices) {
-      if (vertices.hasOwnProperty(i) && typeof vertices[i] !== 'undefined') {
-        objTests.path.addVertex(vertices[i]);
+    for (var i in smallVertices) {
+      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
+        objTests.path.addVertex(smallVertices[i]);
       }
     }
 
@@ -232,15 +230,15 @@ describe('Path', function() {
   it('should have a property to tell whether it is circular', function () {
     var pathCircular = new Path(sqrImgData),
         pathNoncircular = new Path(sqrImgData);
-    for (var i in vertices) {
-      if (vertices.hasOwnProperty(i) && typeof vertices[i] !== 'undefined') {
+    for (var i in smallVertices) {
+      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
         if (pathNoncircular.vertices.length < 4) {
-          pathNoncircular.addVertex(vertices[i]);
+          pathNoncircular.addVertex(smallVertices[i]);
         }
-        pathCircular.addVertex(vertices[i]);
+        pathCircular.addVertex(smallVertices[i]);
       }
     }
-    pathCircular.addVertex(vertices[5]);
+    pathCircular.addVertex(smallVertices[5]);
 
     assert.equal(pathCircular.isCircular, true);
     assert.equal(pathNoncircular.isCircular, false);
@@ -251,15 +249,15 @@ describe('Path', function() {
         pathNoncircular = new Path(sqrImgData),
         vertexToAdd = new Vertex(1, 0),
         vertexAlreadyAdded = new Vertex(1, 1);
-    for (var i in vertices) {
-      if (vertices.hasOwnProperty(i) && typeof vertices[i] !== 'undefined') {
+    for (var i in smallVertices) {
+      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
         if (pathNoncircular.vertices.length < 4) {
-          pathNoncircular.addVertex(vertices[i]);
+          pathNoncircular.addVertex(smallVertices[i]);
         }
-        pathCircular.addVertex(vertices[i]);
+        pathCircular.addVertex(smallVertices[i]);
       }
     }
-    pathCircular.addVertex(vertices[5]);
+    pathCircular.addVertex(smallVertices[5]);
 
     assert.equal(pathCircular.addVertex(vertexToAdd), false);
     assert.equal(pathNoncircular.addVertex(vertexToAdd), true);
@@ -267,9 +265,9 @@ describe('Path', function() {
   });
 
   it('should have a function to return a vertex given its index or coords', function () {
-    for (var i in vertices) {
-      if (vertices.hasOwnProperty(i) && typeof vertices[i] !== 'undefined') {
-        objTests.path.addVertex(vertices[i]);
+    for (var i in smallVertices) {
+      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
+        objTests.path.addVertex(smallVertices[i]);
       }
     }
 
