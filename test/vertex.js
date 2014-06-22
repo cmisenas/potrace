@@ -165,16 +165,6 @@ describe('Vertex', function () {
     assert.equal(neighbors.w.y, 1);
   });
 
-  it('should be able to return its index on the grid not the image data', function () {
-    var vertex1 = new Vertex(0, 0),
-        vertex2 = new Vertex(0, 1);
-        vertex3 = new Vertex(1, 1);
-
-    assert.equal(vertex1.getIndex(3), 0);
-    assert.equal(vertex2.getIndex(3), 4);
-    assert.equal(vertex3.getIndex(3), 5);
-  });
-
   it('should handle getting neighbor pixels of vertices that are boundaries of the image', function () {
     var vertex1 = new Vertex(0, 0),
         vertex2 = new Vertex(0, 1),

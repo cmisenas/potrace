@@ -53,11 +53,6 @@
     this.y = y;
   }
 
-  Vertex.prototype.getIndex = function (width) {
-    var x = this.y > 0 ? this.x + 1 : this.x;
-    return x + this.y * width;
-  };
-
   Vertex.prototype.getNeighborPixels = function (width, height) {
     var neighbors = {};
     var checkedIfBorder = this.checkIfBorder(width, height);
