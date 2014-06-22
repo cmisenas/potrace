@@ -19,9 +19,9 @@ var objTests = {
 
 describe('Path Finder', function() {
   setup(function () {
-    Vertex = function (coords) {
-      this.x = coords.x;
-      this.y = coords.y;
+    Vertex = function (x, y) {
+      this.x = x;
+      this.y = y;
     };
 
     Vertex.prototype = {
@@ -71,7 +71,7 @@ describe('Path Finder', function() {
     for (var j = 0; j < sqrImgData.data.length; j++) {
       if (verticesIndices.indexOf(j) > -1) {
         var coords = _.indexToCoords(j, sqrImgData.width, 4);
-        vertices[j/4] = new Vertex({x: coords.x, y: coords.y});
+        vertices[j/4] = new Vertex(coords.x, coords.y);
       }
       if (blackPixels.indexOf(j) > -1) {
         sqrImgData.data[j] = 0;
@@ -88,7 +88,7 @@ describe('Path Finder', function() {
     for (var k = 0; k < twoSqrImgData.data.length; k++) {
       if (bigVerticesIndices.indexOf(k) > -1) {
         var twoSqrCoords = _.indexToCoords(k, twoSqrImgData.width, 4);
-        bigVertices[k/4] = new Vertex({x: twoSqrCoords.x, y: twoSqrCoords.y});
+        bigVertices[k/4] = new Vertex(twoSqrCoords.x, twoSqrCoords.y);
       }
       if (twoBlackPixels.indexOf(k) > -1) {
         twoSqrImgData.data[k] = 0;
@@ -112,7 +112,7 @@ describe('Path Finder', function() {
   });
 
   it('should be able to follow a set of vertices given a grid index and turn correctly', function () {
-    objTests.pathFinder = new PathFinder(vertices, sqrImgData);
+    objTests.pathFinder = new PathFinder(vertices, sqrImgData, Vertex);
     var vertexObj = objTests.pathFinder.allVertices[5],
         nextVertex = objTests.pathFinder.followVertex(vertexObj);
 
@@ -138,7 +138,7 @@ describe('Path Finder', function() {
   });
 
   it('should be able to find and return a single path from a 4x4 sample', function () {
-    objTests.pathFinder = new PathFinder(vertices, sqrImgData);
+    objTests.pathFinder = new PathFinder(vertices, sqrImgData, Vertex);
     objTests.pathFinder.findAllPaths();
     var allPaths = objTests.pathFinder.getAllPaths();
 
@@ -151,7 +151,7 @@ describe('Path Finder', function() {
   });
 
   it('should be able to return both paths from a 10x10 sample', function () {
-    objTests.pathFinder = new PathFinder(bigVertices, twoSqrImgData);
+    objTests.pathFinder = new PathFinder(bigVertices, twoSqrImgData, Vertex);
     objTests.pathFinder.findAllPaths();
     var allPaths = objTests.pathFinder.getAllPaths();
 
@@ -176,7 +176,7 @@ describe('Path', function() {
     for (var j = 0; j < sqrImgData.data.length; j++) {
       if (verticesIndices.indexOf(j) > -1) {
         coords = _.indexToCoords(j, sqrImgData.width, 4);
-        vertices[j/4] = new Vertex({x: coords.x, y: coords.y});
+        vertices[j/4] = new Vertex(coords.x, coords.y);
       }
       if (blackPixels.indexOf(j) > -1) {
         sqrImgData.data[j] = 0;
@@ -192,7 +192,7 @@ describe('Path', function() {
         coords;
     for (var i = 0; i < verticesIndices.length; i++) {
       coords = _.indexToCoords(verticesIndices[i], width, 4);
-      vertices[verticesIndices[i]/4] = new Vertex({x: coords.x, y: coords.y});
+      vertices[verticesIndices[i]/4] = new Vertex(coords.x, coords.y);
     }
 
     objTests.path = new Path(sqrImgData);
@@ -203,7 +203,7 @@ describe('Path', function() {
   });
 
   it('should have an addVertex method which adds to its vertices array when given a vertex object, otherwise throw an error', function () {
-    var vertexToAdd = new Vertex({x: 1, y: 1});
+    var vertexToAdd = new Vertex(1, 1);
     objTests.path.addVertex(vertexToAdd);
 
     assert.equal(objTests.path.vertices.length, 1);
@@ -249,8 +249,8 @@ describe('Path', function() {
   it('should return false when trying to addVertex and it is already circular or it already contains that vertex, otherwise add it and return true', function () {
     var pathCircular = new Path(sqrImgData),
         pathNoncircular = new Path(sqrImgData),
-        vertexToAdd = new Vertex({x: 1, y: 0}),
-        vertexAlreadyAdded = new Vertex({x: 1, y: 1});
+        vertexToAdd = new Vertex(1, 0),
+        vertexAlreadyAdded = new Vertex(1, 1);
     for (var i in vertices) {
       if (vertices.hasOwnProperty(i) && typeof vertices[i] !== 'undefined') {
         if (pathNoncircular.vertices.length < 4) {

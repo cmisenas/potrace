@@ -7,7 +7,7 @@
   }
 
   //this object is responsible for getting all paths given all the vertices in gathered in the image
-  function PathFinder(vertices, imgData) {
+  function PathFinder(vertices, imgData, vertexBuilderClass) {
     if (typeof vertices == 'undefined') {
       throw new Error('No vertices and image data given!');
     }
@@ -15,6 +15,7 @@
     this.imgData = imgData;
     this.allPaths = [];
     this.count = this.countVertices();
+    this.VertexBuilder = vertexBuilderClass || exports.Vertex;
   }
 
   PathFinder.prototype.followVertex = function (vertex) {
@@ -26,19 +27,19 @@
     if (neighborP.nw !== null && neighborP.ne !== null &&
         this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width, 4)] === 0 &&
         this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width, 4)] === 255) {
-      nextVertex = new Vertex(neighborV.n.x, neighborV.n.y);
+      nextVertex = new this.VertexBuilder(neighborV.n.x, neighborV.n.y);
     } else if (neighborP.ne !== null && neighborP.se !== null &&
         this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width, 4)] === 0 &&
         this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width, 4)] === 255) {
-      nextVertex = new Vertex(neighborV.e.x, neighborV.e.y);
+      nextVertex = new this.VertexBuilder(neighborV.e.x, neighborV.e.y);
     } else if (neighborP.se !== null && neighborP.sw !== null &&
         this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width, 4)] === 0 &&
         this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width, 4)] === 255) {
-      nextVertex = new Vertex(neighborV.s.x, neighborV.s.y);
+      nextVertex = new this.VertexBuilder(neighborV.s.x, neighborV.s.y);
     } else if (neighborP.sw !== null && neighborP.nw !== null &&
         this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width, 4)] === 0 &&
         this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width, 4)] === 255) {
-      nextVertex = new Vertex(neighborV.w.x, neighborV.w.y);
+      nextVertex = new this.VertexBuilder(neighborV.w.x, neighborV.w.y);
     }
 
     return nextVertex;

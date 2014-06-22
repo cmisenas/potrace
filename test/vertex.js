@@ -1,6 +1,6 @@
 var assert = require('assert'),
-    VertexFinder = require('../js/vertex').VertexFinder;
-Vertex = require('../js/vertex').Vertex;
+    VertexFinder = require('../js/vertex').VertexFinder,
+    Vertex = require('../js/vertex').Vertex;
 
 var objTests = {
       vertexFinder: null,
