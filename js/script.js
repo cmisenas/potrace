@@ -63,7 +63,12 @@
   };
 
   resetBtn.onclick = function() {
-    canvas.ctx.putImageData(canvas.currentImg.imgData, 0, 0);//put back the original image to the canvas
+    canvas.ctx.putImageData(canvas.currentImg.imgData, 0, 0); //put back the original image to the canvas
+    thresholdBtn.disabled = true;
+    getVerticesBtn.disabled = true;
+    getPathBtn.disabled = true;
+    buildPolygonBtn.disabled = true;
+    buildSVGBtn.disabled = true;
     $('svg').remove();
   };
 }(this));
