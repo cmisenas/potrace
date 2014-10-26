@@ -97,10 +97,10 @@
     //the horror D:
     for (currPixel in neighbors) {
       if (neighbors.hasOwnProperty(currPixel)) {
-        var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel]  : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width, 4)];
+        var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel]  : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width)];
         for (otherPixel in neighbors) {
           if (neighbors.hasOwnProperty(otherPixel) && currPixel !== otherPixel) {
-            var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width, 4)];
+            var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width)];
             if (valToCompare !== otherValToCompare) {
               return true;
             }
