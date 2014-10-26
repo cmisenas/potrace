@@ -1,4 +1,10 @@
 ;(function(exports) {
+  var _;
+  if (exports._ === undefined && typeof require !== "undefined") {
+    _ = require('../js/helpers').Helpers;
+  } else {
+    _ = exports._;
+  }
 
   function Filters(cvs) {
     var canvas = cvs;
@@ -9,7 +15,7 @@
       canvas.runImg(null, function(current) {
         var grayLevel = (0.3 * imgData.data[current]) + (0.59 * imgData.data[current + 1]) + (0.11 * imgData.data[current + 2]);
         if (grayLevel >= threshold) {
-          canvas.setPixel(current, 255, imgDataCopy);
+          canvas.setPixel(current, _.WHITE, imgDataCopy);
         } else {
           canvas.setPixel(current, 0, imgDataCopy);
         }

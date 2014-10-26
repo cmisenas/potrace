@@ -1,4 +1,10 @@
 ;(function(exports) {
+  var _;
+  if (exports._ === undefined && typeof require !== "undefined") {
+    _ = require('../js/helpers').Helpers;
+  } else {
+    _ = exports._;
+  }
 
   function Canvas(id, w, h, res) {
     this.elem = document.getElementById(id);
@@ -72,7 +78,7 @@
 
   Canvas.prototype.getPixel = function(i, imgData) {
     if (i < 0 || i > imgData.data.length - 4) {
-      return {r: 255, g: 255, b: 255, a: 255};
+      return {r: _.WHITE, g: _.WHITE, b: _.WHITE, a: _.WHITE};
     } else {
       return {r: imgData.data[i], g: imgData.data[i + 1], b: imgData.data[i + 2], a: imgData.data[i + 3] };
     }

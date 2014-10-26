@@ -63,10 +63,10 @@
     var neighbors = {};
     var checkedIfBorder = this.checkIfBorder(width, height);
 
-    neighbors.nw = checkedIfBorder.top || checkedIfBorder.left ? 255 : {x: this.x - 1, y: this.y - 1};
-    neighbors.ne = checkedIfBorder.top || checkedIfBorder.right ? 255 : {x: this.x, y: this.y - 1};
-    neighbors.sw = checkedIfBorder.bottom || checkedIfBorder.left ? 255 : {x: this.x - 1, y: this.y};
-    neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? 255 : {x: this.x, y: this.y};
+    neighbors.nw = checkedIfBorder.top || checkedIfBorder.left ? _.WHITE : {x: this.x - 1, y: this.y - 1};
+    neighbors.ne = checkedIfBorder.top || checkedIfBorder.right ? _.WHITE : {x: this.x, y: this.y - 1};
+    neighbors.sw = checkedIfBorder.bottom || checkedIfBorder.left ? _.WHITE : {x: this.x - 1, y: this.y};
+    neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? _.WHITE : {x: this.x, y: this.y};
     return neighbors;
   };
 
