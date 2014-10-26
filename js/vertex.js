@@ -22,12 +22,11 @@
   }
 
   VertexFinder.prototype.addVertex = function (vertex) {
+    if (typeof vertex === "undefined" || vertex === null) { return false; }
     var index = _.coordsToIndex({x: vertex.x, y: vertex.y}, this.imgData.width, 1);
-    if (typeof (this.allVertices[index] = vertex) === 'object') {
-      this.vLength++;
-      return true;
-    }
-    return false;
+    this.allVertices[index] = vertex
+    this.vLength++;
+    return true;
   };
 
   VertexFinder.prototype.findAllVertices = function () {
