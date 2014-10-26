@@ -53,7 +53,6 @@
 
   buildPolygonBtn.onclick = function () {
     for (var i = 0; i < exports.paths.length; i++) {
-      if(i === 3) { exports.fourtOne = true; }
       var polygon = new Polygon(exports.paths[i]);
       var polygonPaths = polygon.build();
       var pathBuilder = new SVGBuilder(polygonPaths);
