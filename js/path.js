@@ -25,20 +25,20 @@
         nextVertex;
 
     if (neighborP.nw !== null && neighborP.ne !== null &&
-        this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width)] === 0 &&
-        this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width)] === 255) {
+        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width)]) &&
+        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width)])) {
       nextVertex = new this.VertexBuilder(neighborV.n.x, neighborV.n.y);
     } else if (neighborP.ne !== null && neighborP.se !== null &&
-        this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width)] === 0 &&
-        this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width)] === 255) {
+        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width)]) &&
+        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width)])) {
       nextVertex = new this.VertexBuilder(neighborV.e.x, neighborV.e.y);
     } else if (neighborP.se !== null && neighborP.sw !== null &&
-        this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width)] === 0 &&
-        this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width)] === 255) {
+        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width)]) &&
+        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width)])) {
       nextVertex = new this.VertexBuilder(neighborV.s.x, neighborV.s.y);
     } else if (neighborP.sw !== null && neighborP.nw !== null &&
-        this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width)] === 0 &&
-        this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width)] === 255) {
+        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width)]) &&
+        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width)])) {
       nextVertex = new this.VertexBuilder(neighborV.w.x, neighborV.w.y);
     }
 

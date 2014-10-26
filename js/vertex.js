@@ -83,9 +83,9 @@
 
   Vertex.prototype.checkIfBorder = function (width, height) {
     var borders = {};
-    borders.top = this.y === 0 ? true : false;
+    borders.top = _.isBlack(this.y) ? true : false;
     borders.bottom = this.y === height ? true : false;
-    borders.left = this.x === 0 ? true : false;
+    borders.left = _.isBlack(this.x) ? true : false;
     borders.right = this.x === width ? true : false;
     return borders;
   };

@@ -1,5 +1,8 @@
 ;(function(exports) {
   var Helpers = {
+    BLACK: 0,
+    WHITE: 255,
+
     coordsToIndex: function(coords, width, m) {
       if (m == undefined) { m = 4; } // set multiple equal to 4
       // refers to how much data is stored in a pixel
@@ -13,7 +16,14 @@
               x : (index % (width * m)) / m,
               y : Math.floor(index / (width * m))
              };
-    }
+    },
+
+    isBlack: function(val) {
+      return val === this.BLACK;
+    },
+    isWhite: function(val) {
+      return val === this.WHITE;
+    },
   };
   exports.Helpers = Helpers;
 }(this));
