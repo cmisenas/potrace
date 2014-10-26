@@ -18,7 +18,7 @@
     this.VertexBuilder = vertexBuilderClass || exports.Vertex;
   }
 
-  PathFinder.prototype.followVertex = function (vertex) {
+  PathFinder.prototype.findNextVertex = function (vertex) {
     var currVertex = vertex,
         neighborP = currVertex.getNeighborPixels(this.imgData.width, this.imgData.height),
         neighborV = currVertex.getNeighborVertices(this.imgData.width, this.imgData.height),
@@ -79,7 +79,7 @@
         if (this.allVertices.hasOwnProperty(currVertexInd) && typeof this.allVertices[currVertexInd] !== 'undefined') {
           while (this.getCurrentPath().isCircular === false) {
             currVertexObj = this.allVertices[currVertexInd];
-            nextVertex = this.followVertex(currVertexObj);
+            nextVertex = this.findNextVertex(currVertexObj);
             this.addToPath(currVertexInd);
             currVertexInd = _.coordsToIndex(nextVertex, this.imgData.width, 1);
             if (typeof this.allVertices[currVertexInd] === 'undefined') {

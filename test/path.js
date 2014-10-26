@@ -112,7 +112,7 @@ describe('Path Finder', function() {
     vertexObj.getNeighborPixels = getNeighborPixels;
     vertexObj.getNeighborVertices = getNeighborVertices;
     objTests.pathFinder = new PathFinder(smallVertices, sqrImgData, Vertex);
-    var nextVertex = objTests.pathFinder.followVertex(vertexObj);
+    var nextVertex = objTests.pathFinder.findNextVertex(vertexObj);
 
     assert.equal(nextVertex.x, 1);
     assert.equal(nextVertex.y, 2);
