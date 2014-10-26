@@ -129,16 +129,8 @@
     if (typeof vertex === 'undefined') {
       throw new Error('No vertex to find!');
     }
-    if (typeof vertex === 'number') {
-      vertex = _.indexToCoords(vertex, this.imgData.width, 1);
-    }
-    for (var i = 0, max = this.vertices.length; i < max; i++) {
-      if (this.vertices[i].x === vertex.x &&
-          this.vertices[i].y === vertex.y) {
-        return true;
-      }
-    }
-    return false;
+    var match = this.find(vertex);
+    return (typeof match !== "undefined" && match !== null);
   };
 
   Path.prototype.find = function (vertexIorC) {
@@ -147,9 +139,6 @@
     }
     if (typeof vertexIorC === 'number') {
       vertexIorC = _.indexToCoords(vertexIorC, this.imgData.width, 1);
-    }
-    if (this.contains(vertexIorC) === false) {
-      return false;
     }
     for (var i = 0, max = this.vertices.length; i < max; i++) {
       if (this.vertices[i].x === vertexIorC.x &&
