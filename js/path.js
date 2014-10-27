@@ -24,26 +24,25 @@
         neighborV = currVertex.getNeighborVertices(this.imgData.width, this.imgData.height),
         nextVertex;
 
-    if (neighborP.nw !== null && neighborP.ne !== null &&
-        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width)]) &&
-        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width)])) {
+    if (this._isAVertex(neighborP.nw, neighborP.ne)) {
       nextVertex = new this.VertexBuilder(neighborV.n.x, neighborV.n.y);
-    } else if (neighborP.ne !== null && neighborP.se !== null &&
-        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.ne, this.imgData.width)]) &&
-        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width)])) {
+    } else if (this._isAVertex(neighborP.ne, neighborP.se)) {
       nextVertex = new this.VertexBuilder(neighborV.e.x, neighborV.e.y);
-    } else if (neighborP.se !== null && neighborP.sw !== null &&
-        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.se, this.imgData.width)]) &&
-        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width)])) {
+    } else if (this._isAVertex(neighborP.se, neighborP.sw)) {
       nextVertex = new this.VertexBuilder(neighborV.s.x, neighborV.s.y);
-    } else if (neighborP.sw !== null && neighborP.nw !== null &&
-        _.isBlack(this.imgData.data[_.coordsToIndex(neighborP.sw, this.imgData.width)]) &&
-        _.isWhite(this.imgData.data[_.coordsToIndex(neighborP.nw, this.imgData.width)])) {
+    } else if (this._isAVertex(neighborP.sw, neighborP.nw)) {
       nextVertex = new this.VertexBuilder(neighborV.w.x, neighborV.w.y);
     }
 
     return nextVertex;
   };
+
+  PathFinder.prototype._isAVertex = function(neighborPixel1, neighborPixel2) {
+    var nPixel1Coords = _.coordsToIndex(neighborPixel1, this.imgData.width),
+        nPixel2Coords = _.coordsToIndex(neighborPixel2, this.imgData.width);
+    return (neighborPixel1 !== null && neighborPixel2 !== null &&
+           _.isBlack(this.imgData.data[nPixel1Coords]) && _.isWhite(this.imgData.data[nPixel2Coords]));
+  }
 
   PathFinder.prototype.countVertices = function () {
     if (typeof this.count === 'undefined') {
