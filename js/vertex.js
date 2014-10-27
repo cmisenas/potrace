@@ -13,9 +13,8 @@
 
   //this object will be responsible for finding all vertices given a canvas image
   function VertexFinder (imgData) {
-    if (typeof imgData == 'undefined') {
-      throw new Error('No image data passed!');
-    }
+    if (typeof imgData == 'undefined') { throw new Error('No image data passed!'); }
+
     this.imgData = imgData;
     this.allVertices = [];
     this.vLength = 0;
@@ -23,6 +22,7 @@
 
   VertexFinder.prototype.addVertex = function (vertex) {
     if (typeof vertex === "undefined" || vertex === null) { return false; }
+
     var index = _.coordsToIndex({x: vertex.x, y: vertex.y}, this.imgData.width, 1);
     this.allVertices[index] = vertex
     this.vLength++;
@@ -41,19 +41,10 @@
     }
   };
 
-  VertexFinder.prototype.getAllVertices = function () {
-    return this.allVertices;
-  };
-
-  VertexFinder.prototype.getLength = function () {
-    return this.vLength;
-  };
-
   //this object will be handling individual vertex particularly determining if a vertex is an edge or not
   function Vertex(x, y) {
-    if (typeof x == 'undefined' || typeof y == 'undefined') {
-      throw new Error('No x and y passed!');
-    }
+    if (typeof x == 'undefined' || typeof y == 'undefined') { throw new Error('No x and y passed!'); }
+
     this.x = x;
     this.y = y;
   }

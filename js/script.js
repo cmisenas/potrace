@@ -28,7 +28,7 @@
 
   getVerticesBtn.onclick = function () {
     vertexFinder.findAllVertices();
-    vertices = vertexFinder.getAllVertices();
+    vertices = vertexFinder.allVertices;
     pathFinder = new PathFinder(vertices, vertexFinder.imgData);
     getPathBtn.disabled = false;
   };

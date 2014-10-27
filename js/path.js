@@ -8,9 +8,8 @@
 
   //this object is responsible for getting all paths given all the vertices in gathered in the image
   function PathFinder(vertices, imgData, vertexBuilderClass) {
-    if (typeof vertices == 'undefined') {
-      throw new Error('No vertices and image data given!');
-    }
+    if (typeof vertices == 'undefined') { throw new Error('No vertices and image data given!'); }
+
     this.allVertices = vertices;
     this.imgData = imgData;
     this.allPaths = [];
@@ -48,18 +47,14 @@
     if (typeof this.count === 'undefined') {
       this.count = 0;
       for (var v in this.allVertices) {
-        if (this.allVertices.hasOwnProperty(v) && typeof this.allVertices[v] !== 'undefined') {
-          this.count++;
-        }
+        if (this.allVertices[v]) { this.count++; }
       }
     }
     return this.count;
   };
 
   PathFinder.prototype.getCurrentPath = function () {
-    if (typeof this.currPath === 'undefined') {
-      this.currPath = new Path(this.imgData);
-    }
+    if (typeof this.currPath === 'undefined') { this.currPath = new Path(this.imgData); }
     return this.currPath;
   };
 
@@ -104,9 +99,7 @@
   }
 
   Path.prototype.addVertex = function (vertex) {
-    if (typeof vertex === 'undefined') {
-      throw new Error('No vertex to add to path!');
-    }
+    if (typeof vertex === 'undefined') { throw new Error('No vertex to add to path!'); }
 
     if (this.vertices.length > 0 &&
         this.vertices[0].x === vertex.x &&
@@ -125,23 +118,20 @@
   };
 
   Path.prototype.contains = function (vertex) {
-    if (typeof vertex === 'undefined') {
-      throw new Error('No vertex to find!');
-    }
+    if (typeof vertex === 'undefined') { throw new Error('No vertex to find!'); }
+
     var match = this.find(vertex);
     return (typeof match !== "undefined" && match !== null);
   };
 
   Path.prototype.find = function (vertexIorC) {
-    if (typeof vertexIorC === 'undefined') {
-      throw new Error('No vertex index or coords provided!');
-    }
-    if (typeof vertexIorC === 'number') {
-      vertexIorC = _.indexToCoords(vertexIorC, this.imgData.width, 1);
-    }
+    if (typeof vertexIorC === 'undefined') { throw new Error('No vertex index or coords provided!'); }
+
+    var vertexIndex = vertexIorC;
+    if (typeof vertexIorC === 'number') { vertexIndex = _.indexToCoords(vertexIorC, this.imgData.width, 1); }
     for (var i = 0, max = this.vertices.length; i < max; i++) {
-      if (this.vertices[i].x === vertexIorC.x &&
-          this.vertices[i].y === vertexIorC.y) {
+      if (this.vertices[i].x === vertexIndex.x &&
+          this.vertices[i].y === vertexIndex.y) {
         return this.vertices[i];
       }
     }

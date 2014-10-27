@@ -68,23 +68,23 @@ describe('Vertex Finder', function () {
     objTests.vertexFinder = new VertexFinder(blankImgData);
 
     assert.equal(objTests.vertexFinder.addVertex({x: 1, y: 1}), true);
-    assert.equal(objTests.vertexFinder.getAllVertices()[4].x, 1);
-    assert.equal(objTests.vertexFinder.getAllVertices()[4].y, 1);
-    assert.equal(objTests.vertexFinder.getLength(), 1);
+    assert.equal(objTests.vertexFinder.allVertices[4].x, 1);
+    assert.equal(objTests.vertexFinder.allVertices[4].y, 1);
+    assert.equal(objTests.vertexFinder.vLength, 1);
   });
 
   it('should be able to find all vertices that are edges', function () {
     objTests.vertexFinder = new VertexFinder(sqrImgData);
     objTests.vertexFinder.findAllVertices();
 
-    assert.equal(objTests.vertexFinder.getLength(), 4);
+    assert.equal(objTests.vertexFinder.vLength, 4);
   });
 
   it('should be able to find all edge vertices even those that touch the boundaries of the image', function () {
     objTests.vertexFinder = new VertexFinder(cornerSqrImgData);
     objTests.vertexFinder.findAllVertices();
 
-    assert.equal(objTests.vertexFinder.getLength(), 8);
+    assert.equal(objTests.vertexFinder.vLength, 8);
   });
 
   it('should return groups of vertex', function () {
@@ -93,8 +93,8 @@ describe('Vertex Finder', function () {
     objTests.vertexFinder.addVertex({x: 1, y: 0});
     objTests.vertexFinder.addVertex({x: 1, y: 1});
 
-    assert.equal(objTests.vertexFinder.getLength(), 3);
-    assert.equal(objTests.vertexFinder.getAllVertices().join(''), '[object Object][object Object][object Object]');
+    assert.equal(objTests.vertexFinder.vLength, 3);
+    assert.equal(objTests.vertexFinder.allVertices.join(''), '[object Object][object Object][object Object]');
   });
 
 });
