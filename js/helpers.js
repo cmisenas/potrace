@@ -24,6 +24,14 @@
     isWhite: function(val) {
       return val === this.WHITE;
     },
+
+    countElements: function countElements(obj) {
+      var count = 0;
+      for (var el in obj) {
+        count++;
+      }
+      return count;
+    },
   };
   exports.Helpers = Helpers;
 }(this));

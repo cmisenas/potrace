@@ -1,4 +1,15 @@
 ;(function (exports) {
+  var _;
+  if (exports._ === undefined && typeof require !== "undefined") {
+    _ = require('../js/helpers').Helpers;
+  } else {
+    _ = exports._;
+  }
+
+  var NORTH = 'NORTH',
+      SOUTH = 'SOUTH',
+      WEST = 'WEST',
+      EAST = 'EAST';
 
   function StraightLine() {}
 
@@ -69,14 +80,6 @@
       directions[direction] = true;
     }
 
-    function countElements(obj) {
-      var count = 0;
-      for (var el in obj) {
-        count++;
-      }
-      return count;
-    }
-
     return countElements(directions) === 4? true : false;
   };
 
@@ -85,13 +88,13 @@
     distance.x = coordTo.x - coordFrom.x;
     distance.y = coordTo.y - coordFrom.y;
     if (distance.y === -1) {
-      return 'north';
+      return NORTH;
     } else if (distance.x === 1) {
-      return 'east';
+      return EAST;
     } else if (distance.y === 1) {
-      return 'south';
+      return SOUTH;
     } else if (distance.x === -1) {
-      return 'west';
+      return WEST;
     }
     return false;
   };
