@@ -139,7 +139,7 @@ describe('Vertex', function () {
 
   it('should be able to get its neighboring pixels correctly', function () {
     objTests.vertex = new Vertex(1, 1);
-    var neighbors = objTests.vertex.getNeighborPixels(3, 3);
+    var neighbors = objTests.vertex.neighborPixelCoords(3, 3);
 
     assert.equal(neighbors.nw.x, 0);
     assert.equal(neighbors.nw.y, 0);
@@ -153,7 +153,7 @@ describe('Vertex', function () {
 
   it('should be able to get its neighboring vertices correctly', function () {
     objTests.vertex = new Vertex(1, 1);
-    var neighbors = objTests.vertex.getNeighborVertices(3, 3);
+    var neighbors = objTests.vertex.neighborVertexCoords(3, 3);
 
     assert.equal(neighbors.n.x, 1);
     assert.equal(neighbors.n.y, 0);
@@ -168,8 +168,8 @@ describe('Vertex', function () {
   it('should handle getting neighbor pixels of vertices that are boundaries of the image', function () {
     var vertex1 = new Vertex(0, 0),
         vertex2 = new Vertex(0, 1),
-        neighbors1 = vertex1.getNeighborPixels(3, 3),
-        neighbors2 = vertex2.getNeighborPixels(3, 3);
+        neighbors1 = vertex1.neighborPixelCoords(3, 3),
+        neighbors2 = vertex2.neighborPixelCoords(3, 3);
 
     assert.equal(neighbors1.nw, 255);
     assert.equal(neighbors1.ne, 255);
@@ -188,8 +188,8 @@ describe('Vertex', function () {
   it('should handle getting neighbor vertices of vertices that are boundaries of the image', function () {
     var vertex1 = new Vertex(0, 0);
     var vertex2 = new Vertex(0, 1);
-    var neighbors1 = vertex1.getNeighborVertices(3, 3);
-    var neighbors2 = vertex2.getNeighborVertices(3, 3);
+    var neighbors1 = vertex1.neighborVertexCoords(3, 3);
+    var neighbors2 = vertex2.neighborVertexCoords(3, 3);
 
     assert.equal(neighbors1.n, null);
     assert.equal(neighbors1.e.x, 1);

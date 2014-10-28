@@ -51,25 +51,25 @@ describe('Path Finder', function() {
       for (var j = 0; j < imgData.data.length; j++) {
         if (verticesIndices.indexOf(j) > -1) {
           var coords = _.indexToCoords(j, imgData.width, 4),
-              getNeighborPixels = sinon.stub(),
-              getNeighborVertices = sinon.stub();
+              neighborPixelCoords = sinon.stub(),
+              neighborVertexCoords = sinon.stub();
           vertices[j/4] = new Vertex(coords.x, coords.y);
           //for simplification but sacrificing coverage,
           //we do not have edges in the image border yet
-          getNeighborPixels.returns({
+          neighborPixelCoords.returns({
               nw: { x: coords.x - 1, y: coords.y - 1 },
               ne: { x: coords.x, y: coords.y - 1 },
               sw: { x: coords.x - 1, y: coords.y },
               se: { x: coords.x, y: coords.y }
           });
-          getNeighborVertices.returns({
+          neighborVertexCoords.returns({
             n: { x: coords.x, y: coords.y - 1 },
             s: { x: coords.x, y: coords.y + 1 },
             e: { x: coords.x + 1, y: coords.y },
             w: { x: coords.x - 1, y: coords.y }
           });
-          vertices[j/4].getNeighborPixels = getNeighborPixels;
-          vertices[j/4].getNeighborVertices = getNeighborVertices;
+          vertices[j/4].neighborPixelCoords = neighborPixelCoords;
+          vertices[j/4].neighborVertexCoords = neighborVertexCoords;
         }
         if (blackPixels.indexOf(j) > -1) {
           imgData.data[j] = 0;
@@ -94,23 +94,23 @@ describe('Path Finder', function() {
   });
 
   it('should be able to follow a set of vertices given a grid index and turn correctly', function () {
-    var getNeighborPixels = sinon.stub(),
-        getNeighborVertices = sinon.stub();
-    getNeighborPixels.returns({
+    var neighborPixelCoords = sinon.stub(),
+        neighborVertexCoords = sinon.stub();
+    neighborPixelCoords.returns({
         nw: { x: 0, y: 0 },
         ne: { x: 1, y: 0 },
         sw: { x: 0, y: 1 },
         se: { x: 1, y: 1 }
     });
-    getNeighborVertices.returns({
+    neighborVertexCoords.returns({
       n: { x: 1, y: 0 },
       s: { x: 1, y: 2 },
       e: { x: 2, y: 1 },
       w: { x: 0, y: 1 }
     });
     var vertexObj = objTests.pathFinder.allVertices[5];
-    vertexObj.getNeighborPixels = getNeighborPixels;
-    vertexObj.getNeighborVertices = getNeighborVertices;
+    vertexObj.neighborPixelCoords = neighborPixelCoords;
+    vertexObj.neighborVertexCoords = neighborVertexCoords;
     objTests.pathFinder = new PathFinder(smallVertices, sqrImgData, Vertex);
     var nextVertex = objTests.pathFinder.findNextVertex(vertexObj);
 
@@ -216,7 +216,7 @@ describe('Path', function() {
         trueCoord = {x: 1, y: 1},
         trueIndex = 5;
     for (var i in smallVertices) {
-      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
+      if (typeof smallVertices[i] !== 'undefined') {
         objTests.path.addVertex(smallVertices[i]);
       }
     }
@@ -231,7 +231,7 @@ describe('Path', function() {
     var pathCircular = new Path(sqrImgData),
         pathNoncircular = new Path(sqrImgData);
     for (var i in smallVertices) {
-      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
+      if (typeof smallVertices[i] !== 'undefined') {
         if (pathNoncircular.vertices.length < 4) {
           pathNoncircular.addVertex(smallVertices[i]);
         }
@@ -250,7 +250,7 @@ describe('Path', function() {
         vertexToAdd = new Vertex(1, 0),
         vertexAlreadyAdded = new Vertex(1, 1);
     for (var i in smallVertices) {
-      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
+      if (typeof smallVertices[i] !== 'undefined') {
         if (pathNoncircular.vertices.length < 4) {
           pathNoncircular.addVertex(smallVertices[i]);
         }
@@ -266,7 +266,7 @@ describe('Path', function() {
 
   it('should have a function to return a vertex given its index or coords', function () {
     for (var i in smallVertices) {
-      if (smallVertices.hasOwnProperty(i) && typeof smallVertices[i] !== 'undefined') {
+      if (typeof smallVertices[i] !== 'undefined') {
         objTests.path.addVertex(smallVertices[i]);
       }
     }

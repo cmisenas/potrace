@@ -6,7 +6,6 @@ var objTests = {},
     vertices1 = [],
     vertices2 = [],
     vertices3 = [],
-    Vertex,
     straightPath1 = {},
     nonStraightPath1 = {},
     nonStraightPath2 = {},
@@ -50,44 +49,6 @@ var objTests = {},
         y: 2
       }
     ];
-
-Vertex = function (coords) {
-  this.x = coords.x;
-  this.y = coords.y;
-};
-
-Vertex.prototype = {
-  getNeighborPixels : function (width, height) {
-    var neighbors = {};
-    var checkedIfBorder = this.checkIfBorder(width, height);
-
-    neighbors.nw = checkedIfBorder.top || checkedIfBorder.left ? null : {x: this.x - 1, y: this.y - 1};
-    neighbors.ne = checkedIfBorder.top || checkedIfBorder.right ? null : {x: this.x, y: this.y - 1};
-    neighbors.sw = checkedIfBorder.bottom || checkedIfBorder.left ? null : {x: this.x - 1, y: this.y};
-    neighbors.se = checkedIfBorder.bottom || checkedIfBorder.right ? null : {x: this.x, y: this.y};
-    return neighbors;
-  },
-
-  checkIfBorder : function (width, height) {
-    var borders = {};
-    borders.top = this.y === 0 ? true : false;
-    borders.bottom = this.y === height ? true : false;
-    borders.left = this.x === 0 ? true : false;
-    borders.right = this.x === width ? true : false;
-    return borders;
-  },
-
-  getNeighborVertices : function (width, height) {
-      var neighbors = {};
-      var checkedIfBorder = this.checkIfBorder(width, height);
-
-      neighbors.n = checkedIfBorder.top ? null : {x: this.x, y: this.y - 1};
-      neighbors.s = checkedIfBorder.bottom ? null : {x: this.x, y: this.y + 1};
-      neighbors.e = checkedIfBorder.right ? null : {x: this.x + 1, y: this.y};
-      neighbors.w = checkedIfBorder.left ? null : {x: this.x - 1, y: this.y};
-      return neighbors;
-    }
-};
 
 describe("Straight Line", function() {
   setup(function () {

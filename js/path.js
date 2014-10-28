@@ -19,8 +19,8 @@
 
   PathFinder.prototype.findNextVertex = function (vertex) {
     var currVertex = vertex,
-        neighborP = currVertex.getNeighborPixels(this.imgData.width, this.imgData.height),
-        neighborV = currVertex.getNeighborVertices(this.imgData.width, this.imgData.height),
+        neighborP = currVertex.neighborPixelCoords(this.imgData.width, this.imgData.height),
+        neighborV = currVertex.neighborVertexCoords(this.imgData.width, this.imgData.height),
         nextVertex;
 
     if (this._isAVertex(neighborP.nw, neighborP.ne)) {
@@ -70,7 +70,7 @@
 
     while (this.count > 0) {
       for (currVertexInd in this.allVertices) {
-        if (this.allVertices.hasOwnProperty(currVertexInd) && typeof this.allVertices[currVertexInd] !== 'undefined') {
+        if (typeof this.allVertices[currVertexInd] !== 'undefined') {
           while (this.getCurrentPath().isCircular === false) {
             currVertexObj = this.allVertices[currVertexInd];
             nextVertex = this.findNextVertex(currVertexObj);

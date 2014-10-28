@@ -49,7 +49,7 @@
     this.y = y;
   }
 
-  Vertex.prototype.getNeighborPixels = function (width, height) {
+  Vertex.prototype.neighborPixelCoords = function (width, height) {
     var neighbors = {};
     var checkedIfBorder = this.checkIfBorder(width, height);
 
@@ -60,7 +60,7 @@
     return neighbors;
   };
 
-  Vertex.prototype.getNeighborVertices = function (width, height) {
+  Vertex.prototype.neighborVertexCoords = function (width, height) {
     var neighbors = {};
     var checkedIfBorder = this.checkIfBorder(width, height);
 
@@ -81,19 +81,16 @@
   };
 
   Vertex.prototype.checkIfEdge = function (imgData) {
-    var neighbors = this.getNeighborPixels(imgData.width, imgData.height),
+    var neighbors = this.neighborPixelCoords(imgData.width, imgData.height),
         currPixel, otherPixel;
 
-    //the horror D:
     for (currPixel in neighbors) {
-      if (neighbors.hasOwnProperty(currPixel)) {
-        var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel]  : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width)];
-        for (otherPixel in neighbors) {
-          if (neighbors.hasOwnProperty(otherPixel) && currPixel !== otherPixel) {
-            var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width)];
-            if (valToCompare !== otherValToCompare) {
-              return true;
-            }
+      var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel] : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width)];
+      for (otherPixel in neighbors) {
+        if (currPixel !== otherPixel) {
+          var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width)];
+          if (valToCompare !== otherValToCompare) {
+            return true;
           }
         }
       }
