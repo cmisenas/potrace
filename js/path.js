@@ -17,32 +17,6 @@
     this.VertexBuilder = vertexBuilderClass || exports.Vertex;
   }
 
-  PathFinder.prototype.findNextVertex = function (vertex) {
-    var currVertex = vertex,
-        neighborP = currVertex.neighborPixelCoords(this.imgData.width, this.imgData.height),
-        neighborV = currVertex.neighborVertexCoords(this.imgData.width, this.imgData.height),
-        nextVertex;
-
-    if (this._isAVertex(neighborP.nw, neighborP.ne)) {
-      nextVertex = new this.VertexBuilder(neighborV.n.x, neighborV.n.y);
-    } else if (this._isAVertex(neighborP.ne, neighborP.se)) {
-      nextVertex = new this.VertexBuilder(neighborV.e.x, neighborV.e.y);
-    } else if (this._isAVertex(neighborP.se, neighborP.sw)) {
-      nextVertex = new this.VertexBuilder(neighborV.s.x, neighborV.s.y);
-    } else if (this._isAVertex(neighborP.sw, neighborP.nw)) {
-      nextVertex = new this.VertexBuilder(neighborV.w.x, neighborV.w.y);
-    }
-
-    return nextVertex;
-  };
-
-  PathFinder.prototype._isAVertex = function(neighborPixel1, neighborPixel2) {
-    var nPixel1Coords = _.coordsToIndex(neighborPixel1, this.imgData.width),
-        nPixel2Coords = _.coordsToIndex(neighborPixel2, this.imgData.width);
-    return (neighborPixel1 !== null && neighborPixel2 !== null &&
-           _.isBlack(this.imgData.data[nPixel1Coords]) && _.isWhite(this.imgData.data[nPixel2Coords]));
-  }
-
   PathFinder.prototype.countVertices = function () {
     if (typeof this.count === 'undefined') {
       this.count = 0;
@@ -73,7 +47,7 @@
         if (typeof this.allVertices[currVertexInd] !== 'undefined') {
           while (this.getCurrentPath().isCircular === false) {
             currVertexObj = this.allVertices[currVertexInd];
-            nextVertex = this.findNextVertex(currVertexObj);
+            nextVertex = currVertexObj.getNextVertex(this.imgData);
             this.addToPath(currVertexInd);
             currVertexInd = _.coordsToIndex(nextVertex, this.imgData.width, 1);
             if (typeof this.allVertices[currVertexInd] === 'undefined') {

@@ -88,31 +88,6 @@ describe('Path Finder', function() {
     }, /No vertices and image data given!/);
   });
 
-  it('should be able to follow a set of vertices given a grid index and turn correctly', function () {
-    var neighborPixelCoords = sinon.stub(),
-        neighborVertexCoords = sinon.stub();
-    neighborPixelCoords.returns({
-        nw: { x: 0, y: 0 },
-        ne: { x: 1, y: 0 },
-        sw: { x: 0, y: 1 },
-        se: { x: 1, y: 1 }
-    });
-    neighborVertexCoords.returns({
-      n: { x: 1, y: 0 },
-      s: { x: 1, y: 2 },
-      e: { x: 2, y: 1 },
-      w: { x: 0, y: 1 }
-    });
-    var vertexObj = objTests.pathFinder.allVertices[5];
-    vertexObj.neighborPixelCoords = neighborPixelCoords;
-    vertexObj.neighborVertexCoords = neighborVertexCoords;
-    objTests.pathFinder = new PathFinder(smallVertices, sqrImgData, Vertex);
-    var nextVertex = objTests.pathFinder.findNextVertex(vertexObj);
-
-    assert.equal(nextVertex.x, 1);
-    assert.equal(nextVertex.y, 2);
-  });
-
   it('should have a function to return the number of vertices it currently has', function () {
     objTests.pathFinder = new PathFinder(smallVertices, sqrImgData);
     var current = objTests.pathFinder.countVertices();

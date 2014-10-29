@@ -71,6 +71,31 @@
     return neighbors;
   };
 
+  Vertex.prototype.getNextVertex = function (imgData) {
+    var neighborP = this.neighborPixelCoords(imgData.width, imgData.height),
+        neighborV = this.neighborVertexCoords(imgData.width, imgData.height),
+        nextVertex;
+
+    if (this._isAVertex(neighborP.nw, neighborP.ne, imgData)) {
+      nextVertex = new Vertex(neighborV.n.x, neighborV.n.y);
+    } else if (this._isAVertex(neighborP.ne, neighborP.se, imgData)) {
+      nextVertex = new Vertex(neighborV.e.x, neighborV.e.y);
+    } else if (this._isAVertex(neighborP.se, neighborP.sw, imgData)) {
+      nextVertex = new Vertex(neighborV.s.x, neighborV.s.y);
+    } else if (this._isAVertex(neighborP.sw, neighborP.nw, imgData)) {
+      nextVertex = new Vertex(neighborV.w.x, neighborV.w.y);
+    }
+
+    return nextVertex;
+  };
+
+  Vertex.prototype._isAVertex = function(neighborPixel1, neighborPixel2, imgData) {
+    var nPixel1Coords = _.coordsToIndex(neighborPixel1, imgData.width),
+        nPixel2Coords = _.coordsToIndex(neighborPixel2, imgData.width);
+    return (neighborPixel1 !== null && neighborPixel2 !== null &&
+           _.isBlack(imgData.data[nPixel1Coords]) && _.isWhite(imgData.data[nPixel2Coords]));
+  }
+
   Vertex.prototype.checkIfBorder = function (width, height) {
     var borders = {};
     borders.top = _.isBlack(this.y) ? true : false;

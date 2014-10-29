@@ -218,4 +218,12 @@ describe('Vertex', function () {
     assert.equal(vertex4.checkIfEdge(sqrImgData), false);
   });
 
+  it('should be able to return next vertex', function () {
+    var subjectVertex = new Vertex(1, 2);
+    var nextVertex = subjectVertex.getNextVertex(sqrImgData);
+
+    assert.equal(nextVertex.x, 2);
+    assert.equal(nextVertex.y, 2);
+  });
+
 });
