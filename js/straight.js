@@ -80,7 +80,7 @@
       directions[direction] = true;
     }
 
-    return countElements(directions) === 4? true : false;
+    return _.countElements(directions) === 4? true : false;
   };
 
   StraightLine.getDirection = function(coordFrom, coordTo) {

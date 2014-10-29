@@ -259,9 +259,9 @@ describe("Straight Line", function() {
   });
 
   it("returns one of four directions possible given two coordinates", function() {
-    assert.equal(StraightLine.getDirection(pair1[0], pair1[1]), 'west');
-    assert.equal(StraightLine.getDirection(pair2[0], pair2[1]), 'east');
-    assert.equal(StraightLine.getDirection(pair3[0], pair3[1]), 'north');
-    assert.equal(StraightLine.getDirection(pair4[0], pair4[1]), 'south');
+    assert.equal(StraightLine.getDirection(pair1[0], pair1[1]), 'WEST');
+    assert.equal(StraightLine.getDirection(pair2[0], pair2[1]), 'EAST');
+    assert.equal(StraightLine.getDirection(pair3[0], pair3[1]), 'NORTH');
+    assert.equal(StraightLine.getDirection(pair4[0], pair4[1]), 'SOUTH');
   });
 });
