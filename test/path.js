@@ -1,6 +1,7 @@
 var assert = require('assert'),
     sinon = require('sinon'),
     _ = require('../js/helpers').Helpers,
+    Vertex = require('../js/vertex').Vertex,
     PathFinder = require('../js/path').PathFinder,
     Path = require('../js/path').Path;
 
@@ -8,7 +9,6 @@ var objTests = {
       pathFinder: null,
       path: null
     },
-    Vertex,
     smallVertices = [],
     bigVertices = [],
     verticesIndices,
@@ -20,11 +20,6 @@ var objTests = {
 
 describe('Path Finder', function() {
   setup(function () {
-    Vertex = function (x, y) {
-      this.x = x;
-      this.y = y;
-    };
-
     verticesIndices = [20, 24, 28, 36, 44, 52, 56, 60];
     bigVerticesIndices = [44, 48, 52, 84, 92, 124, 128, 132];
     bigVerticesIndices = bigVerticesIndices.concat([176, 180, 184, 188, 216, 228, 256, 268, 296, 300, 304, 308]);
