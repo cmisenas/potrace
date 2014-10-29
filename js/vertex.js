@@ -21,9 +21,7 @@
   }
 
   VertexFinder.prototype.addVertex = function (vertex) {
-    if (typeof vertex === "undefined" || vertex === null) { return false; }
-
-    var index = _.coordsToIndex({x: vertex.x, y: vertex.y}, this.imgData.width, 1);
+    var index = _.coordsToIndex(vertex, this.imgData.width, 1);
     this.allVertices[index] = vertex
     this.vLength++;
     return true;
