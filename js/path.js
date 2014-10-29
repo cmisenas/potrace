@@ -87,10 +87,6 @@
     }
   };
 
-  PathFinder.prototype.getAllPaths = function () {
-    return this.allPaths;
-  };
-
   //this object is responsible for forming an individual path and is instantiated by PathFinder object
   function Path(imgData){
     this.imgData = imgData;

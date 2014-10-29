@@ -138,7 +138,7 @@ describe('Path Finder', function() {
   it('should be able to find and return a single path from a 4x4 sample', function () {
     objTests.pathFinder = new PathFinder(smallVertices, sqrImgData, Vertex);
     objTests.pathFinder.findAllPaths();
-    var allPaths = objTests.pathFinder.getAllPaths();
+    var allPaths = objTests.pathFinder.allPaths;
 
     assert.equal(allPaths.length, 1);
     assert.equal(allPaths[0].vertices.length, 8);
@@ -151,7 +151,7 @@ describe('Path Finder', function() {
   it('should be able to return both paths from a 10x10 sample', function () {
     objTests.pathFinder = new PathFinder(bigVertices, twoSqrImgData, Vertex);
     objTests.pathFinder.findAllPaths();
-    var allPaths = objTests.pathFinder.getAllPaths();
+    var allPaths = objTests.pathFinder.allPaths;
 
     assert.equal(allPaths.length, 2);
     assert.equal(allPaths[0].vertices.length, 8);

@@ -7,6 +7,14 @@
     this.polygon = { vertices: [] };
   }
 
+  Polygon.prototype.init = function(index) {
+    var line = [];
+    line.push(this.path.vertices[index]);
+    line.push(this.path.vertices[index + 1]);
+    line.push(this.path.vertices[index + 2]);
+    return line;
+  };
+
   Polygon.prototype.build = function() {
     // the first 3 vertices are always straight
     var currentLine = this.init(0);
@@ -28,14 +36,6 @@
       }
     }
     return this.polygon;
-  };
-
-  Polygon.prototype.init = function(index) {
-    var line = [];
-    line.push(this.path.vertices[index]);
-    line.push(this.path.vertices[index + 1]);
-    line.push(this.path.vertices[index + 2]);
-    return line;
   };
 
   exports.Polygon = Polygon;

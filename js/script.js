@@ -35,7 +35,7 @@
 
   getPathBtn.onclick = function () {
     pathFinder.findAllPaths();
-    paths = pathFinder.getAllPaths();
+    paths = pathFinder.allPaths;
     exports.paths = paths;
     buildPolygonBtn.disabled = false;
     buildSVGBtn.disabled = false;
