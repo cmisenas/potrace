@@ -25,7 +25,7 @@
       return val === this.WHITE;
     },
 
-    countElements: function countElements(obj) {
+    countElements: function (obj) {
       var count = 0;
       for (var el in obj) {
         count++;
