@@ -107,11 +107,12 @@
     var neighbors = this.neighborPixelCoords(imgData.width, imgData.height),
         currPixel, otherPixel;
 
+
     for (currPixel in neighbors) {
-      var valToCompare = typeof neighbors[currPixel] === 'number' ? neighbors[currPixel] : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width)];
+      var valToCompare = _.isNumeric(neighbors[currPixel]) ? neighbors[currPixel] : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width)];
       for (otherPixel in neighbors) {
         if (currPixel !== otherPixel) {
-          var otherValToCompare = typeof neighbors[otherPixel] === 'number' ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width)];
+          var otherValToCompare = _.isNumeric(neighbors[otherPixel]) ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width)];
           if (valToCompare !== otherValToCompare) {
             return true;
           }

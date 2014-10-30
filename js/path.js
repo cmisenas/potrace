@@ -98,7 +98,7 @@
     if (typeof vertexIorC === 'undefined') { throw new Error('No vertex index or coords provided!'); }
 
     var vertexIndex = vertexIorC;
-    if (typeof vertexIorC === 'number') { vertexIndex = _.indexToCoords(vertexIorC, this.imgData.width, 1); }
+    if (_.isNumeric(vertexIorC)) { vertexIndex = _.indexToCoords(vertexIorC, this.imgData.width, 1); }
     for (var i = 0, max = this.vertices.length; i < max; i++) {
       if (this.vertices[i].x === vertexIndex.x &&
           this.vertices[i].y === vertexIndex.y) {

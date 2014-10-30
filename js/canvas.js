@@ -71,9 +71,15 @@
   };
 
   Canvas.prototype.setPixel = function(i, val, imgData) {
-    imgData.data[i] = typeof val == 'number'? val: val.r;
-    imgData.data[i + 1] = typeof val == 'number'? val: val.g;
-    imgData.data[i + 2] = typeof val == 'number'? val: val.b;
+    if (_.isNumeric(val)) {
+      imgData.data[i]     = val;
+      imgData.data[i + 1] = val;
+      imgData.data[i + 2] = val;
+    } else {
+      imgData.data[i]     = val.r;
+      imgData.data[i + 1] = val.g;
+      imgData.data[i + 2] = val.b;
+    }
   };
 
   Canvas.prototype.getPixel = function(i, imgData) {

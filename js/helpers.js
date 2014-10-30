@@ -32,6 +32,10 @@
       }
       return count;
     },
+
+    isNumeric: function(x) {
+      return typeof x === 'number';
+    }
   };
   exports.Helpers = Helpers;
 }(this));
