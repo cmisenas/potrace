@@ -105,17 +105,16 @@
 
   Vertex.prototype.checkIfEdge = function (imgData) {
     var neighbors = this.neighborPixelCoords(imgData.width, imgData.height),
-        currPixel, otherPixel;
+        neighborCount = 4, // there will always be 4 neighbors for every vertex
+        neighborVals = Object.keys(neighbors).map(function(n) { return neighbors[n]; }),
+        currPixel, otherPixel, currVal, compareVal;
 
-
-    for (currPixel in neighbors) {
-      var valToCompare = _.isNumeric(neighbors[currPixel]) ? neighbors[currPixel] : imgData.data[_.coordsToIndex(neighbors[currPixel], imgData.width)];
-      for (otherPixel in neighbors) {
-        if (currPixel !== otherPixel) {
-          var otherValToCompare = _.isNumeric(neighbors[otherPixel]) ? neighbors[otherPixel] : imgData.data[_.coordsToIndex(neighbors[otherPixel], imgData.width)];
-          if (valToCompare !== otherValToCompare) {
-            return true;
-          }
+    for (var i = 0; i < neighborCount; i++) {
+      currVal = _.isNumeric(neighborVals[i]) ? neighborVals[i] : imgData.data[_.coordsToIndex(neighborVals[i], imgData.width)];
+      for (var j = i + 1; j < neighborCount; j++) {
+        compareVal = _.isNumeric(neighborVals[j]) ? neighborVals[j] : imgData.data[_.coordsToIndex(neighborVals[j], imgData.width)];
+        if (currVal !== compareVal) {
+          return true;
         }
       }
     }
