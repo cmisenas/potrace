@@ -170,14 +170,11 @@ describe('Path', function() {
     assert.equal(objTests.path instanceof Path, true);
   });
 
-  it('should have an addVertex method which adds to its vertices array when given a vertex object, otherwise throw an error', function () {
+  it('should have an addVertex method which adds to its vertices array when given a vertex object', function () {
     var vertexToAdd = new Vertex(1, 1);
     objTests.path.addVertex(vertexToAdd);
 
     assert.equal(objTests.path.vertices.length, 1);
-    assert.throws(function () {
-      objTests.path.addVertex();
-    }, /No vertex to add to path!/);
   });
 
   it('should have a function to check whether or not it contains a vertex with given an index or coord', function () {

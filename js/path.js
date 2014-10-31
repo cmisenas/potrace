@@ -69,8 +69,6 @@
   }
 
   Path.prototype.addVertex = function (vertex) {
-    if (typeof vertex === 'undefined') { throw new Error('No vertex to add to path!'); }
-
     if (this.vertices.length > 0 &&
         this.vertices[0].x === vertex.x &&
         this.vertices[0].y === vertex.y) {
@@ -88,15 +86,11 @@
   };
 
   Path.prototype.contains = function (vertex) {
-    if (typeof vertex === 'undefined') { throw new Error('No vertex to find!'); }
-
     var match = this.find(vertex);
     return (typeof match !== "undefined" && match !== null);
   };
 
   Path.prototype.find = function (vertexIorC) {
-    if (typeof vertexIorC === 'undefined') { throw new Error('No vertex index or coords provided!'); }
-
     var vertexIndex = vertexIorC;
     if (_.isNumeric(vertexIorC)) { vertexIndex = _.indexToCoords(vertexIorC, this.imgData.width, 1); }
     for (var i = 0, max = this.vertices.length; i < max; i++) {
