@@ -13,7 +13,6 @@ var objTests = {
     bigVertices = [],
     verticesIndices,
     bigVerticesIndices,
-    blankImgData = {},
     sqrImgData = {},
     twoSqrImgData = {};
 

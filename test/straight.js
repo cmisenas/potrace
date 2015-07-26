@@ -2,196 +2,54 @@ var assert = require("assert"),
     StraightLine = require("../js/straight").StraightLine;
     PathFinder = require('../js/path').PathFinder;
 
-var objTests = {},
-    vertices1 = [],
-    vertices2 = [],
-    vertices3 = [],
-    straightPath1 = {},
-    nonStraightPath1 = {},
-    nonStraightPath2 = {},
-    pair1 = [
-      {
-        x: 1,
-        y: 1
-      },
-      {
-        x: 0,
-        y: 1
-      }
-    ],
-    pair2 = [
-      {
-        x: 1,
-        y: 1
-      },
-      {
-        x: 2,
-        y: 1
-      }
-    ],
-    pair3 = [
-      {
-        x: 1,
-        y: 1
-      },
-      {
-        x: 1,
-        y: 0
-      }
-    ],
-    pair4 = [
-      {
-        x: 1,
-        y: 1
-      },
-      {
-        x: 1,
-        y: 2
-      }
-    ];
+var allPaths1, allPaths2, allPaths3;
+
+var pair1 = [{x: 1, y: 1},
+             {x: 0, y: 1}];
+var pair2 = [{x: 1, y: 1},
+             {x: 2, y: 1}];
+var pair3 = [{x: 1, y: 1},
+             {x: 1, y: 0}];
+var pair4 = [{x: 1, y: 1},
+             {x: 1, y: 2}];
 
 describe("Straight Line", function() {
   setup(function () {
-    allPaths1 = [
-      {
-        x: 0,
-        y: 3
-      },
-      {
-        x: 1,
-        y: 3
-      },
-      {
-        x: 2,
-        y: 3
-      },
-      {
-        x: 2,
-        y: 2
-      },
-      {
-        x: 3,
-        y: 2
-      },
-      {
-        x: 4,
-        y: 2
-      },
-      {
-        x: 5,
-        y: 2
-      },
-      {
-        x: 5,
-        y: 1
-      },
-      {
-        x: 6,
-        y: 1
-      },
-      {
-        x: 7,
-        y: 1
-      },
-      {
-        x: 8,
-        y: 1
-      },
-      {
-        x: 9,
-        y: 1
-      },
-      {
-        x: 9,
-        y: 0
-      }
-    ];
+    allPaths1 = [{x: 0, y: 3},
+                 {x: 1, y: 3},
+                 {x: 2, y: 3},
+                 {x: 2, y: 2},
+                 {x: 3, y: 2},
+                 {x: 4, y: 2},
+                 {x: 5, y: 2},
+                 {x: 5, y: 1},
+                 {x: 6, y: 1},
+                 {x: 7, y: 1},
+                 {x: 8, y: 1},
+                 {x: 9, y: 1},
+                 {x: 9, y: 0}];
 
-    allPaths2 = [
-      {
-        x: 0,
-        y: 2
-      },
-      {
-        x: 1,
-        y: 2
-      },
-      {
-        x: 2,
-        y: 2
-      },
-      {
-        x: 2,
-        y: 1
-      },
-      {
-        x: 3,
-        y: 1
-      },
-      {
-        x: 4,
-        y: 1
-      },
-      {
-        x: 5,
-        y: 1
-      },
-      {
-        x: 5,
-        y: 0
-      },
-      {
-        x: 6,
-        y: 0
-      },
-      {
-        x: 7,
-        y: 0
-      },
-      {
-        x: 8,
-        y: 0
-      },
-      {
-        x: 9,
-        y: 0
-      },
-      {
-        x: 9,
-        y: 1
-      },
-    ];
+    allPaths2 = [{x: 0, y: 2},
+                 {x: 1, y: 2},
+                 {x: 2, y: 2},
+                 {x: 2, y: 1},
+                 {x: 3, y: 1},
+                 {x: 4, y: 1},
+                 {x: 5, y: 1},
+                 {x: 5, y: 0},
+                 {x: 6, y: 0},
+                 {x: 7, y: 0},
+                 {x: 8, y: 0},
+                 {x: 9, y: 0},
+                 {x: 9, y: 1}];
 
-    allPaths3 = [
-      {
-        x: 0,
-        y: 1
-      },
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        x: 1,
-        y: 0
-      },
-      {
-        x: 2,
-        y: 0
-      },
-      {
-        x: 3,
-        y: 0
-      },
-      {
-        x: 3,
-        y: 1
-      },
-      {
-        x: 2,
-        y: 1
-      },
-    ];
+    allPaths3 = [{x: 0, y: 1},
+                 {x: 0, y: 0},
+                 {x: 1, y: 0},
+                 {x: 2, y: 0},
+                 {x: 3, y: 0},
+                 {x: 3, y: 1},
+                 {x: 2, y: 1}];
   });
 
   it("returns false if all four directions occur in path", function() {
@@ -207,54 +65,20 @@ describe("Straight Line", function() {
   });
 
   it("returns true if path contains all four directions", function() {
-    allDirectionsPath = [
-      {
-        x: 0,
-        y: 1
-      },
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        x: 1,
-        y: 0
-      },
-      {
-        x: 2,
-        y: 0
-      },
-      {
-        x: 2,
-        y: 1
-      },
-      {
-        x: 1,
-        y: 1
-      },
-    ];
+    allDirectionsPath = [{x: 0, y: 1},
+                         {x: 0, y: 0},
+                         {x: 1, y: 0},
+                         {x: 2, y: 0},
+                         {x: 2, y: 1},
+                         {x: 1, y: 1}];
     assert.equal(StraightLine.containsAllDirections(allDirectionsPath), true);
   });
 
   it("returns false if path does not contain all four directions", function() {
-    someDirectionsPath = [
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        x: 1,
-        y: 0
-      },
-      {
-        x: 2,
-        y: 0
-      },
-      {
-        x: 2,
-        y: 1
-      },
-    ];
+    someDirectionsPath = [{x: 0, y: 0},
+                          {x: 1, y: 0},
+                          {x: 2, y: 0},
+                          {x: 2, y: 1}];
     assert.equal(StraightLine.containsAllDirections(someDirectionsPath), false);
   });
 
