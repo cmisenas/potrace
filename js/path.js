@@ -45,6 +45,7 @@
     while (this.count > 0) {
       for (currVertexInd in this.allVertices) {
         if (typeof this.allVertices[currVertexInd] !== 'undefined') {
+          // we are assuming all outlines are closed loops
           while (this.getCurrentPath().isCircular === false) {
             currVertexObj = this.allVertices[currVertexInd];
             nextVertex = currVertexObj.getNextVertex(this.imgData);

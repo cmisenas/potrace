@@ -1,6 +1,7 @@
 ;(function(exports) {
   var _;
-  if (exports._ === undefined && typeof require !== "undefined") {
+  if (exports._ === undefined &&
+      typeof require !== "undefined") {
     _ = require('../js/helpers').Helpers;
   } else {
     _ = exports._;
@@ -13,7 +14,9 @@
 
   //this object will be responsible for finding all vertices given a canvas image
   function VertexFinder (imgData) {
-    if (typeof imgData == 'undefined') { throw new Error('No image data passed!'); }
+    if (typeof imgData == 'undefined') {
+      throw new Error('No image data passed!');
+    }
 
     this.imgData = imgData;
     this.allVertices = [];
@@ -29,8 +32,8 @@
 
   VertexFinder.prototype.findAllVertices = function () {
     var vertex;
-    for (var y = 0, maxH = this.imgData.height; y <= maxH; y++) {
-      for (var x = 0, maxW = this.imgData.width; x <= maxW; x++) {
+    for (var y = 0; y < this.imgData.height; y++) {
+      for (var x = 0; x < this.imgData.width; x++) {
         vertex = new Vertex(x, y);
         if (vertex.checkIfEdge(this.imgData) === true) {
           this.addVertex(vertex);
@@ -41,7 +44,9 @@
 
   //this object will be handling individual vertex particularly determining if a vertex is an edge or not
   function Vertex(x, y) {
-    if (typeof x == 'undefined' || typeof y == 'undefined') { throw new Error('No x and y passed!'); }
+    if (typeof x == 'undefined' || typeof y == 'undefined') {
+      throw new Error('No x and y passed!');
+    }
 
     this.x = x;
     this.y = y;
@@ -74,6 +79,11 @@
         neighborV = this.neighborVertexCoords(imgData.width, imgData.height),
         nextVertex;
 
+    // to get to [direction] the following neighbor pixels need to be [white|black]
+    // NORTH: { NW: BLACK, NE: WHITE }
+    // EAST:  { NE: BLACK, SE: WHITE }
+    // SOUTH: { SE: BLACK, SW: WHITE }
+    // WEST:  { SW: BLACK, NW: WHITE }
     if (this._isAVertex(neighborP.nw, neighborP.ne, imgData)) {
       nextVertex = new Vertex(neighborV.n.x, neighborV.n.y);
     } else if (this._isAVertex(neighborP.ne, neighborP.se, imgData)) {
