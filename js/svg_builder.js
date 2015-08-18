@@ -41,8 +41,8 @@
     return !!$('#' + SVG_ELEMENT_ID).append(this.SVGElement);
   };
 
-  SVGBuilder.prototype.setDimensions = function () {
-    $('svg').attr({ width: $(window).width(), height: $(window).height() });
+  SVGBuilder.prototype.setDimensions = function (width, height) {
+    $('svg').attr({ width: width, height: height });
   };
 
   exports.SVGBuilder = SVGBuilder;

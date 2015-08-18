@@ -48,7 +48,7 @@
 
       pathBuilder.renderSVGElement();
     }
-    pathBuilder.setDimensions();
+    pathBuilder.setDimensions(canvas.width, canvas.height);
   };
 
   buildPolygonBtn.onclick = function () {
@@ -58,7 +58,7 @@
       var pathBuilder = new SVGBuilder(polygonPaths);
       pathBuilder.renderSVGElement();
     }
-    pathBuilder.setDimensions();
+    pathBuilder.setDimensions(canvas.width, canvas.height);
   };
 
   resetBtn.onclick = function() {
