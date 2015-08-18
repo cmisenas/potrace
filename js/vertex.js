@@ -97,11 +97,13 @@
     return nextVertex;
   };
 
-  Vertex.prototype._isAVertex = function(neighborPixel1, neighborPixel2, imgData) {
-    var nPixel1Coords = _.coordsToIndex(neighborPixel1, imgData.width),
-        nPixel2Coords = _.coordsToIndex(neighborPixel2, imgData.width);
-    return (neighborPixel1 !== null && neighborPixel2 !== null &&
-           _.isBlack(imgData.data[nPixel1Coords]) && _.isWhite(imgData.data[nPixel2Coords]));
+  Vertex.prototype._isAVertex = function(np1, np2, imgData) {
+    var pixel1 = typeof np1 === 'number'? np1: imgData.data[_.coordsToIndex(np1, imgData.width)],
+        pixel2 = typeof np2 === 'number'? np2: imgData.data[_.coordsToIndex(np2, imgData.width)];
+
+    return (!!np1 && !!np2 &&
+           _.isBlack(pixel1) &&
+           _.isWhite(pixel2));
   }
 
   Vertex.prototype.checkIfBorder = function (width, height) {
